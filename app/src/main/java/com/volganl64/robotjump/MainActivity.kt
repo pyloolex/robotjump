@@ -1,6 +1,7 @@
 package com.volganl64.robotjump
 
 import android.os.Bundle
+import android.content.res.Configuration
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -40,7 +42,11 @@ class MainActivity : ComponentActivity() {
         //     }
         // }
         setContent {
-            MessageCard(Message("Bill", "Hello, what are you up to?"))
+            RobotJumpTheme {
+                Surface(modifier=Modifier.fillMaxSize()) {
+                    MessageCard(Message("Bill", "Hello, what are you up to?"))
+                }
+            }
         }
     }
 }
@@ -59,24 +65,43 @@ fun MessageCard(msg: Message)
             modifier=Modifier
                 .size(40.dp)
                 .clip(CircleShape)
+                .border(1.5.dp, MaterialTheme.colorScheme.primary, CircleShape)
         )
 
         Spacer(modifier=Modifier.width(8.dp))
 
         Column {
-            Text(text=msg.author)
+            Text(
+                text=msg.author,
+                color=MaterialTheme.colorScheme.secondary,
+                style=MaterialTheme.typography.titleSmall,
+            )
             Spacer(modifier=Modifier.height(4.dp))
-            Text(text=msg.body)
+            Surface(shape=MaterialTheme.shapes.medium,
+                    shadowElevation=1.dp) {
+                Text(
+                    text=msg.body,
+                    modifier=Modifier.padding(all=4.dp),
+                    style=MaterialTheme.typography.bodyMedium,
+                )
+            }
         }
     }
 }
 
 
-@Preview
+@Preview(name="Light Mode")
+@Preview(name="Dark Mode",
+         uiMode=Configuration.UI_MODE_NIGHT_YES,
+         showBackground=true)
 @Composable
 fun MessageExample()
 {
-    MessageCard(Message("Jack", "Running errands."))
+    RobotJumpTheme {
+        Surface {
+            MessageCard(Message("Jack", "Running errands."))
+        }
+    }
 }
 
 
