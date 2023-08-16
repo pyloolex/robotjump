@@ -10,6 +10,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -135,13 +137,32 @@ class MainActivity : ComponentActivity() {
 }
 
 
+val MENU_WIDTH = 80.dp
+
+
 @Preview
 @Composable
 fun DrawRobotLayout()
 {
     RobotJumpTheme {
-        Box(Modifier.background(Color.Cyan).fillMaxSize()) {
-            Box(Modifier.padding(10.dp).background(Color.Yellow).padding(20.dp))
+        Box(Modifier.background(Color.Cyan).fillMaxSize()/*.width(300.dp).height(600.dp)*/) {
+            Column {
+                Box(Modifier.background(Color.Red).fillMaxWidth().height(50.dp)) {
+                    Box(Modifier.padding(8.dp).background(Color.Yellow)
+                            .fillMaxSize())
+                }
+                Box(Modifier.background(Color.Magenta).weight(1f)
+                        .fillMaxWidth()) {
+                    Row {
+                        Box(Modifier.background(Color.Green).fillMaxHeight()
+                                .width(MENU_WIDTH))
+                        Box(Modifier.background(Color.Blue).fillMaxHeight()
+                                .weight(1f))
+                    }
+                }
+                Box(Modifier.background(Color.LightGray).height(MENU_WIDTH)
+                        .fillMaxWidth())
+            }
         }
     }
 }
