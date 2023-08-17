@@ -8,6 +8,7 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,6 +25,8 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -138,6 +141,7 @@ class MainActivity : ComponentActivity() {
 
 
 val MENU_WIDTH = 80.dp
+val DEFAULT_MARGIN = 8.dp
 
 
 @Preview
@@ -148,20 +152,67 @@ fun DrawRobotLayout()
         Box(Modifier.background(Color.Cyan).fillMaxSize()/*.width(300.dp).height(600.dp)*/) {
             Column {
                 Box(Modifier.background(Color.Red).fillMaxWidth().height(50.dp)) {
-                    Box(Modifier.padding(8.dp).background(Color.Yellow)
+                    Box(Modifier.padding(DEFAULT_MARGIN).background(Color.Yellow)
                             .fillMaxSize())
                 }
+
                 Box(Modifier.background(Color.Magenta).weight(1f)
                         .fillMaxWidth()) {
                     Row {
                         Box(Modifier.background(Color.Green).fillMaxHeight()
-                                .width(MENU_WIDTH))
+                                .width(MENU_WIDTH)) {
+                            Column {
+                                Box(Modifier.padding(DEFAULT_MARGIN).background(Color.Gray)
+                                        .fillMaxWidth().height(30.dp))
+                                Box(Modifier.padding(start=DEFAULT_MARGIN, end=DEFAULT_MARGIN)
+                                        .background(Color.DarkGray).fillMaxWidth().height(30.dp)
+                                )
+                                Spacer(Modifier.weight(1f))
+                                Button(
+                                    {},
+                                    Modifier.padding(start=DEFAULT_MARGIN, end=DEFAULT_MARGIN)
+                                        .fillMaxWidth().aspectRatio(1f),
+                                    shape=RoundedCornerShape(5),
+                                ) {}
+                            }
+                        }
                         Box(Modifier.background(Color.Blue).fillMaxHeight()
-                                .weight(1f))
+                                .weight(1f)) {
+                        }
                     }
                 }
+
                 Box(Modifier.background(Color.LightGray).height(MENU_WIDTH)
-                        .fillMaxWidth())
+                        .fillMaxWidth()) {
+                    Row {
+                        Button(
+                            {},
+                            Modifier.padding(DEFAULT_MARGIN)
+                                .fillMaxHeight().aspectRatio(1f),
+                            shape=RoundedCornerShape(5),
+                        ) {}
+                        Button(
+                            {},
+                            Modifier.padding(top=DEFAULT_MARGIN, bottom=DEFAULT_MARGIN)
+                                .fillMaxHeight().aspectRatio(1f),
+                            shape=RoundedCornerShape(5),
+                        ) {}
+                        Spacer(Modifier.weight(1f))
+                        Button(
+                            {},
+                            Modifier.padding(top=DEFAULT_MARGIN, bottom=DEFAULT_MARGIN)
+                                .fillMaxHeight().aspectRatio(1f),
+                            shape=RoundedCornerShape(5),
+                        ) {}
+                        Button(
+                            {},
+                            Modifier.padding(DEFAULT_MARGIN)
+                                .fillMaxHeight().aspectRatio(1f),
+                            shape=RoundedCornerShape(5),
+                        ) {}
+
+                    }
+                }
             }
         }
     }
