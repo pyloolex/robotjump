@@ -27,6 +27,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -35,12 +36,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.TextStyle
 import com.volganl64.robotjump.ui.theme.RobotJumpTheme
 
 
@@ -172,12 +177,72 @@ fun DrawRobotLayout()
                                     {},
                                     Modifier.padding(start=DEFAULT_MARGIN, end=DEFAULT_MARGIN)
                                         .fillMaxWidth().aspectRatio(1f),
-                                    shape=RoundedCornerShape(5),
+                                    shape=RoundedCornerShape(5.dp),
                                 ) {}
                             }
                         }
-                        Box(Modifier.background(Color.Blue).fillMaxHeight()
+
+                        val textSize = with(LocalDensity.current) {
+                            (LocalConfiguration.current.screenWidthDp.dp /
+                                 20).toSp()
+                        }
+
+                        Box(Modifier.clip(RoundedCornerShape(5.dp))
+                                .background(Color.Blue).fillMaxHeight()
                                 .weight(1f)) {
+                            Column {
+                                Row(Modifier.fillMaxSize().weight(1f)) {
+                                    Box(Modifier.background(Color.Black)
+                                            .fillMaxSize().weight(1f))
+                                    Box(Modifier.background(Color.Yellow)
+                                            .fillMaxSize().weight(1f)) {
+                                        Column(Modifier.align(Alignment.Center)) {
+                                            Box(Modifier.fillMaxWidth()) {
+                                                Text("Target",
+                                                     modifier=Modifier.align(Alignment.Center),
+                                                     style=TextStyle(
+                                                         fontSize=textSize,
+                                                     ),
+                                                )
+                                            }
+                                            Box(Modifier.fillMaxWidth()) {
+                                                Text("(x=114; y=578)",
+                                                     modifier=Modifier.align(Alignment.Center),
+                                                     style=TextStyle(
+                                                         fontSize=textSize,
+                                                     ),
+                                                )
+                                            }
+                                        }
+                                    }
+                                }
+                                Row(Modifier.weight(1f)) {
+                                    Box(Modifier.background(Color.White)
+                                            .fillMaxSize().weight(1f)) {
+                                        Column(Modifier.align(Alignment.Center)) {
+                                            Box(Modifier.fillMaxWidth()) {
+                                                Text("Position",
+                                                     modifier=Modifier.align(Alignment.Center),
+                                                     style=TextStyle(
+                                                         fontSize=textSize,
+                                                     ),
+                                                )
+                                            }
+                                            Box(Modifier.fillMaxWidth()) {
+                                                Text("(x=34; y=57)",
+                                                     modifier=Modifier.align(Alignment.Center),
+                                                     style=TextStyle(
+                                                         fontSize=textSize,
+                                                     ),
+                                                )
+                                            }
+                                        }
+                                    }
+                                    Box(Modifier.background(Color.Black)
+                                            .fillMaxSize().weight(1f))
+
+                                }
+                            }
                         }
                     }
                 }
