@@ -27,6 +27,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -46,6 +47,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import com.volganl64.robotjump.ui.theme.RobotJumpTheme
 
 
@@ -147,12 +149,17 @@ class MainActivity : ComponentActivity() {
 
 val MENU_WIDTH = 80.dp
 val DEFAULT_MARGIN = 8.dp
+val STAR_SIZE = 20.dp
+val FONT_FAMILY = FontFamily.SansSerif
 
 
 @Preview
 @Composable
 fun DrawRobotLayout()
 {
+    val MOVES_TEXT_SIZE = with(LocalDensity.current) {
+        16.dp.toSp()
+    }
     RobotJumpTheme {
         Box(Modifier.background(Color.Cyan).fillMaxSize()/*.width(300.dp).height(600.dp)*/) {
             Column {
@@ -167,11 +174,39 @@ fun DrawRobotLayout()
                         Box(Modifier.background(Color.Green).fillMaxHeight()
                                 .width(MENU_WIDTH)) {
                             Column {
-                                Box(Modifier.padding(DEFAULT_MARGIN).background(Color.Gray)
-                                        .fillMaxWidth().height(30.dp))
+                                Box(Modifier.padding(DEFAULT_MARGIN).background(Color.White)
+                                        .fillMaxWidth().height(30.dp)) {
+                                    Row(Modifier.align(Alignment.Center)) {
+                                        Box(Modifier.fillMaxHeight()) {
+                                            Image(painter=painterResource(id=R.drawable.star),
+                                                  contentDescription="star",
+                                                  modifier=Modifier.align(Alignment.Center).size(STAR_SIZE),
+                                            )
+                                        }
+                                        Box(Modifier.fillMaxHeight()) {
+                                            Image(painter=painterResource(id=R.drawable.star),
+                                                  contentDescription="star",
+                                                  modifier=Modifier.align(Alignment.Center).size(STAR_SIZE),
+                                            )
+                                        }
+                                        Box(Modifier.fillMaxHeight()) {
+                                            Image(painter=painterResource(id=R.drawable.star),
+                                                  contentDescription="star",
+                                                  modifier=Modifier.align(Alignment.Center).size(STAR_SIZE),
+                                            )
+                                        }
+                                    }
+                                }
                                 Box(Modifier.padding(start=DEFAULT_MARGIN, end=DEFAULT_MARGIN)
-                                        .background(Color.DarkGray).fillMaxWidth().height(30.dp)
-                                )
+                                        .background(Color.Red)
+                                        .fillMaxWidth().height(30.dp)) {
+                                    Text("256/340",
+                                         modifier=Modifier.align(Alignment.Center),
+                                         style=TextStyle(
+                                             fontSize=MOVES_TEXT_SIZE,
+                                             fontFamily=FONT_FAMILY,
+                                         ))
+                                }
                                 Spacer(Modifier.weight(1f))
                                 Button(
                                     {},
@@ -183,8 +218,8 @@ fun DrawRobotLayout()
                         }
 
                         val textSize = with(LocalDensity.current) {
-                            (LocalConfiguration.current.screenWidthDp.dp /
-                                 20).toSp()
+                            ((LocalConfiguration.current.screenWidthDp.dp - MENU_WIDTH) /
+                                 15).toSp()
                         }
 
                         Box(Modifier.clip(RoundedCornerShape(5.dp))
@@ -202,6 +237,7 @@ fun DrawRobotLayout()
                                                      modifier=Modifier.align(Alignment.Center),
                                                      style=TextStyle(
                                                          fontSize=textSize,
+                                                         fontFamily=FONT_FAMILY,
                                                      ),
                                                 )
                                             }
@@ -210,6 +246,7 @@ fun DrawRobotLayout()
                                                      modifier=Modifier.align(Alignment.Center),
                                                      style=TextStyle(
                                                          fontSize=textSize,
+                                                         fontFamily=FONT_FAMILY,
                                                      ),
                                                 )
                                             }
@@ -225,6 +262,7 @@ fun DrawRobotLayout()
                                                      modifier=Modifier.align(Alignment.Center),
                                                      style=TextStyle(
                                                          fontSize=textSize,
+                                                         fontFamily=FONT_FAMILY,
                                                      ),
                                                 )
                                             }
@@ -233,6 +271,7 @@ fun DrawRobotLayout()
                                                      modifier=Modifier.align(Alignment.Center),
                                                      style=TextStyle(
                                                          fontSize=textSize,
+                                                         fontFamily=FONT_FAMILY,
                                                      ),
                                                 )
                                             }
