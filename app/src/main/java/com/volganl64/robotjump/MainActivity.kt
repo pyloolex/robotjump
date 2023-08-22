@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -27,6 +28,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -213,7 +215,29 @@ fun DrawRobotLayout()
                                     Modifier.padding(start=DEFAULT_MARGIN, end=DEFAULT_MARGIN)
                                         .fillMaxWidth().aspectRatio(1f),
                                     shape=RoundedCornerShape(5.dp),
-                                ) {}
+                                    colors=ButtonDefaults.buttonColors(containerColor=Color.Yellow),
+                                    contentPadding=PaddingValues(0.dp),
+                                ) {
+                                    Column {
+                                        Box(Modifier.fillMaxWidth()) {
+                                            Image(painter=painterResource(id=R.drawable.up),
+                                                  contentDescription="up",
+                                                  modifier=Modifier.align(Alignment.Center).size(15.dp),
+                                            )
+                                        }
+                                        Box(Modifier.fillMaxWidth()) {
+                                            Text(
+                                                "15",
+                                                Modifier.align(Alignment.Center),
+                                                style=TextStyle(
+                                                    fontSize=MOVES_TEXT_SIZE,
+                                                    fontFamily=FONT_FAMILY,
+                                                    color=Color.Black,
+                                                )
+                                            )
+                                        }
+                                    }
+                                }
                             }
                         }
 
@@ -294,13 +318,58 @@ fun DrawRobotLayout()
                             Modifier.padding(DEFAULT_MARGIN)
                                 .fillMaxHeight().aspectRatio(1f),
                             shape=RoundedCornerShape(5),
-                        ) {}
+                            colors=ButtonDefaults.buttonColors(containerColor=Color.Yellow),
+                            contentPadding=PaddingValues(0.dp),
+                        ) {
+                            Row {
+                                Box(Modifier.fillMaxHeight()) {
+                                    Image(painter=painterResource(id=R.drawable.upgrade),
+                                          contentDescription="upgrade",
+                                          modifier=Modifier.align(Alignment.Center).size(17.dp),
+                                    )
+                                }
+                                Box(Modifier.fillMaxHeight()) {
+                                    Text(
+                                        "16",
+                                        Modifier.align(Alignment.Center),
+                                        style=TextStyle(
+                                            fontSize=MOVES_TEXT_SIZE,
+                                            fontFamily=FONT_FAMILY,
+                                            color=Color.Black,
+                                        )
+                                    )
+                                }
+                            }
+                        }
                         Button(
                             {},
                             Modifier.padding(top=DEFAULT_MARGIN, bottom=DEFAULT_MARGIN)
                                 .fillMaxHeight().aspectRatio(1f),
                             shape=RoundedCornerShape(5),
-                        ) {}
+                            colors=ButtonDefaults.buttonColors(containerColor=Color.Yellow),
+                            contentPadding=PaddingValues(0.dp),
+                        ) {
+                            Row {
+                                Box(Modifier.fillMaxHeight()) {
+                                    Text(
+                                        "15",
+                                        Modifier.align(Alignment.Center),
+                                        style=TextStyle(
+                                            fontSize=MOVES_TEXT_SIZE,
+                                            fontFamily=FONT_FAMILY,
+                                            color=Color.Black,
+                                        )
+                                    )
+                                }
+                                Spacer(Modifier.width(4.dp))
+                                Box(Modifier.fillMaxHeight()) {
+                                    Image(painter=painterResource(id=R.drawable.right),
+                                          contentDescription="upgrade",
+                                          modifier=Modifier.align(Alignment.Center).size(15.dp),
+                                    )
+                                }
+                            }
+                        }
                         Spacer(Modifier.weight(1f))
                         Button(
                             {},
