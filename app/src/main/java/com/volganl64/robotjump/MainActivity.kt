@@ -166,8 +166,18 @@ fun DrawRobotLayout()
         Box(Modifier.background(Color.Cyan).fillMaxSize()/*.width(300.dp).height(600.dp)*/) {
             Column {
                 Box(Modifier.background(Color.Red).fillMaxWidth().height(50.dp)) {
-                    Box(Modifier.padding(DEFAULT_MARGIN).background(Color.Yellow)
-                            .fillMaxSize())
+                    Box(Modifier.padding(DEFAULT_MARGIN).background(Color.White)
+                            .fillMaxSize(),
+                        contentAlignment=Alignment.Center) {
+                        Row {
+                            Text("You lost: beyond the target.",
+                                 style=TextStyle(
+                                     fontSize=MOVES_TEXT_SIZE,
+                                     fontFamily=FONT_FAMILY,
+                                 )
+                            )
+                        }
+                    }
                 }
 
                 Box(Modifier.background(Color.Magenta).weight(1f)
@@ -330,7 +340,7 @@ fun DrawRobotLayout()
                                 }
                                 Box(Modifier.fillMaxHeight()) {
                                     Text(
-                                        "16",
+                                        "+1",
                                         Modifier.align(Alignment.Center),
                                         style=TextStyle(
                                             fontSize=MOVES_TEXT_SIZE,
@@ -376,14 +386,31 @@ fun DrawRobotLayout()
                             Modifier.padding(top=DEFAULT_MARGIN, bottom=DEFAULT_MARGIN)
                                 .fillMaxHeight().aspectRatio(1f),
                             shape=RoundedCornerShape(5),
-                        ) {}
+                            colors=ButtonDefaults.buttonColors(containerColor=Color.Yellow),
+                            contentPadding=PaddingValues(0.dp),
+                        ) {
+                            Box(Modifier.fillMaxHeight()) {
+                                Image(painter=painterResource(id=R.drawable.undo),
+                                      contentDescription="upgrade",
+                                      modifier=Modifier.align(Alignment.Center).size(35.dp),
+                                )
+                            }
+                        }
                         Button(
                             {},
                             Modifier.padding(DEFAULT_MARGIN)
                                 .fillMaxHeight().aspectRatio(1f),
                             shape=RoundedCornerShape(5),
-                        ) {}
-
+                            colors=ButtonDefaults.buttonColors(containerColor=Color.Yellow),
+                            contentPadding=PaddingValues(0.dp),
+                        ) {
+                            Box(Modifier.fillMaxHeight()) {
+                                Image(painter=painterResource(id=R.drawable.restart),
+                                      contentDescription="upgrade",
+                                      modifier=Modifier.align(Alignment.Center).size(35.dp),
+                                )
+                            }
+                        }
                     }
                 }
             }
