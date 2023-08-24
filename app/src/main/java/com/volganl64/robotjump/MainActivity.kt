@@ -61,7 +61,11 @@ val DEFAULT_MARGIN = 8.dp
 val STAR_SIZE = 20.dp
 val FONT_FAMILY = FontFamily.SansSerif
 var MOVES_TEXT_SIZE = 100.sp // To be overwritten inside Composable.
-
+var BUTTON_COLOR = Color(200, 200, 200, 255)
+var SCREEN_COLOR = Color(230, 230, 230, 255)
+var MENU_COLOR = Color(240, 240, 240, 255)
+var LOST_COLOR = Color(255, 179, 179, 255)
+var WON_COLOR = Color(179, 255, 179, 255)
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,9 +81,9 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun ColumnScope.Header()
 {
-    Box(Modifier.background(Color.Red).fillMaxWidth().height(50.dp)) {
+    Box(Modifier.fillMaxWidth().height(50.dp)) {
         Box(Modifier.padding(DEFAULT_MARGIN).clip(RoundedCornerShape(5.dp))
-                .background(Color.White)
+                .background(LOST_COLOR)
                 .fillMaxSize(),
             contentAlignment=Alignment.Center) {
             Row {
@@ -98,10 +102,10 @@ fun ColumnScope.Header()
 @Composable
 fun RowScope.LeftBar()
 {
-    Box(Modifier.background(Color.Green).fillMaxHeight()
+    Box(Modifier.fillMaxHeight()
             .width(MENU_WIDTH)) {
         Column {
-            Box(Modifier.padding(DEFAULT_MARGIN).background(Color.White)
+            Box(Modifier.padding(DEFAULT_MARGIN)
                     .fillMaxWidth().height(30.dp)) {
                 Row(Modifier.align(Alignment.Center)) {
                     Box(Modifier.fillMaxHeight()) {
@@ -125,7 +129,7 @@ fun RowScope.LeftBar()
                 }
             }
             Box(Modifier.padding(start=DEFAULT_MARGIN, end=DEFAULT_MARGIN)
-                    .background(Color.Red)
+
                     .fillMaxWidth().height(30.dp)) {
                 Text("256/340",
                      modifier=Modifier.align(Alignment.Center),
@@ -140,7 +144,7 @@ fun RowScope.LeftBar()
                 Modifier.padding(start=DEFAULT_MARGIN, end=DEFAULT_MARGIN)
                     .fillMaxWidth().aspectRatio(1f),
                 shape=RoundedCornerShape(5.dp),
-                colors=ButtonDefaults.buttonColors(containerColor=Color.Yellow),
+                colors=ButtonDefaults.buttonColors(containerColor=BUTTON_COLOR),
                 contentPadding=PaddingValues(0.dp),
             ) {
                 Column {
@@ -176,14 +180,18 @@ fun RowScope.Screen()
              15).toSp()
     }
 
-    Box(Modifier.clip(RoundedCornerShape(5.dp))
-            .background(Color.Blue).fillMaxHeight()
+    Box(Modifier
+            .padding(PaddingValues(end=8.dp))
+            .border(width=0.8.dp, color=Color.Black, shape=RoundedCornerShape(5.dp))
+            .clip(RoundedCornerShape(5.dp))
+            .background(SCREEN_COLOR)
+            .fillMaxHeight()
             .weight(1f)) {
         Column {
             Row(Modifier.fillMaxSize().weight(1f)) {
-                Box(Modifier.background(Color.Black)
+                Box(Modifier
                         .fillMaxSize().weight(1f))
-                Box(Modifier.background(Color.Yellow)
+                Box(Modifier
                         .fillMaxSize().weight(1f)) {
                     Column(Modifier.align(Alignment.Center)) {
                         Box(Modifier.fillMaxWidth()) {
@@ -208,7 +216,7 @@ fun RowScope.Screen()
                 }
             }
             Row(Modifier.weight(1f)) {
-                Box(Modifier.background(Color.White)
+                Box(Modifier
                         .fillMaxSize().weight(1f)) {
                     Column(Modifier.align(Alignment.Center)) {
                         Box(Modifier.fillMaxWidth()) {
@@ -231,7 +239,7 @@ fun RowScope.Screen()
                         }
                     }
                 }
-                Box(Modifier.background(Color.Black)
+                Box(Modifier
                         .fillMaxSize().weight(1f))
             }
         }
@@ -242,7 +250,7 @@ fun RowScope.Screen()
 @Composable
 fun ColumnScope.Body()
 {
-    Box(Modifier.background(Color.Magenta).weight(1f)
+    Box(Modifier.weight(1f)
             .fillMaxWidth()) {
         Row {
             LeftBar()
@@ -256,7 +264,7 @@ fun ColumnScope.Body()
 @Composable
 fun ColumnScope.Footer()
 {
-    Box(Modifier.background(Color.LightGray).height(MENU_WIDTH)
+    Box(Modifier.height(MENU_WIDTH)
             .fillMaxWidth()) {
         Row {
             Button(
@@ -264,7 +272,7 @@ fun ColumnScope.Footer()
                 Modifier.padding(DEFAULT_MARGIN)
                     .fillMaxHeight().aspectRatio(1f),
                 shape=RoundedCornerShape(5),
-                colors=ButtonDefaults.buttonColors(containerColor=Color.Yellow),
+                colors=ButtonDefaults.buttonColors(containerColor=BUTTON_COLOR),
                 contentPadding=PaddingValues(0.dp),
             ) {
                 Row {
@@ -292,7 +300,7 @@ fun ColumnScope.Footer()
                 Modifier.padding(top=DEFAULT_MARGIN, bottom=DEFAULT_MARGIN)
                     .fillMaxHeight().aspectRatio(1f),
                 shape=RoundedCornerShape(5),
-                colors=ButtonDefaults.buttonColors(containerColor=Color.Yellow),
+                colors=ButtonDefaults.buttonColors(containerColor=BUTTON_COLOR),
                 contentPadding=PaddingValues(0.dp),
             ) {
                 Row {
@@ -322,7 +330,7 @@ fun ColumnScope.Footer()
                 Modifier.padding(top=DEFAULT_MARGIN, bottom=DEFAULT_MARGIN)
                     .fillMaxHeight().aspectRatio(1f),
                 shape=RoundedCornerShape(5),
-                colors=ButtonDefaults.buttonColors(containerColor=Color.Yellow),
+                colors=ButtonDefaults.buttonColors(containerColor=BUTTON_COLOR),
                 contentPadding=PaddingValues(0.dp),
             ) {
                 Box(Modifier.fillMaxHeight()) {
@@ -337,7 +345,7 @@ fun ColumnScope.Footer()
                 Modifier.padding(DEFAULT_MARGIN)
                     .fillMaxHeight().aspectRatio(1f),
                 shape=RoundedCornerShape(5),
-                colors=ButtonDefaults.buttonColors(containerColor=Color.Yellow),
+                colors=ButtonDefaults.buttonColors(containerColor=BUTTON_COLOR),
                 contentPadding=PaddingValues(0.dp),
             ) {
                 Box(Modifier.fillMaxHeight()) {
@@ -360,7 +368,7 @@ fun DrawRobotLayout()
         16.dp.toSp()
     }
 
-    Box(Modifier.background(Color.Cyan).fillMaxSize()/*.width(300.dp).height(600.dp)*/) {
+    Box(Modifier.background(MENU_COLOR).fillMaxSize()) {
         Column {
             Header()
             Body()
