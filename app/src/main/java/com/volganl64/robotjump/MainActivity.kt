@@ -2,6 +2,7 @@ package com.volganl64.robotjump
 
 import android.os.Bundle
 import android.content.res.Configuration
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.animateColorAsState
@@ -41,6 +42,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -67,6 +70,7 @@ var MENU_COLOR = Color(240, 240, 240, 255)
 var LOST_COLOR = Color(255, 179, 179, 255)
 var WON_COLOR = Color(179, 255, 179, 255)
 
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,6 +80,8 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
+data class State(var moves: MutableState< List< Triple<Int, Int, Int> > >)
 
 
 @Composable
@@ -100,7 +106,7 @@ fun ColumnScope.Header()
 
 
 @Composable
-fun RowScope.LeftBar()
+fun RowScope.LeftBar(state: State, stepUp: () -> Unit)
 {
     Box(Modifier.fillMaxHeight()
             .width(MENU_WIDTH)) {
@@ -131,7 +137,7 @@ fun RowScope.LeftBar()
             Box(Modifier.padding(start=DEFAULT_MARGIN, end=DEFAULT_MARGIN)
 
                     .fillMaxWidth().height(30.dp)) {
-                Text("256/340",
+                Text("${state.moves.value.size - 1}/10",
                      modifier=Modifier.align(Alignment.Center),
                      style=TextStyle(
                          fontSize=MOVES_TEXT_SIZE,
@@ -140,7 +146,7 @@ fun RowScope.LeftBar()
             }
             Spacer(Modifier.weight(1f))
             Button(
-                {},
+                stepUp,
                 Modifier.padding(start=DEFAULT_MARGIN, end=DEFAULT_MARGIN)
                     .fillMaxWidth().aspectRatio(1f),
                 shape=RoundedCornerShape(5.dp),
@@ -204,7 +210,7 @@ fun RowScope.Screen()
                             )
                         }
                         Box(Modifier.fillMaxWidth()) {
-                            Text("(x=114; y=578)",
+                            Text("(x=19; y=9)",
                                  modifier=Modifier.align(Alignment.Center),
                                  style=TextStyle(
                                      fontSize=textSize,
@@ -229,7 +235,7 @@ fun RowScope.Screen()
                             )
                         }
                         Box(Modifier.fillMaxWidth()) {
-                            Text("(x=34; y=57)",
+                            Text("(x=0; y=0)",
                                  modifier=Modifier.align(Alignment.Center),
                                  style=TextStyle(
                                      fontSize=textSize,
@@ -247,18 +253,20 @@ fun RowScope.Screen()
 }
 
 
-@Composable
-fun ColumnScope.Body()
-{
-    Box(Modifier.weight(1f)
-            .fillMaxWidth()) {
-        Row {
-            LeftBar()
-            Screen()
-        }
-    }
 
-}
+
+// @Composable
+// fun ColumnScope.Body()
+// {
+//     Box(Modifier.weight(1f)
+//             .fillMaxWidth()) {
+//         Row {
+//             LeftBar()
+//             Screen()
+//         }
+//     }
+
+// }
 
 
 @Composable
@@ -360,6 +368,21 @@ fun ColumnScope.Footer()
 }
 
 
+
+
+@Composable
+fun ColumnScope.Body(state: State, stepUp: () -> Unit)
+{
+    Box(Modifier.weight(1f)
+            .fillMaxWidth()) {
+        Row {
+            LeftBar(state, stepUp)
+            Screen()
+        }
+    }
+}
+
+
 @Preview
 @Composable
 fun DrawRobotLayout()
@@ -368,10 +391,24 @@ fun DrawRobotLayout()
         16.dp.toSp()
     }
 
+    //var moves by state: State, stepUp: () -> Unit
+    var state = State(rememberSaveable { mutableStateOf(listOf(Triple(0, 0, 1))) })
+
+    fun stepUp() : Unit //moves: MutableState< List< Triple<Int, Int, Int> > >)
+    {
+        var last = state.moves.value.last()
+        state.moves.value = listOf(
+            *state.moves.value.toTypedArray(),
+            Triple(last.first, last.second + 1, last.third))
+        Log.i("jj", "fuck ${state.moves.value.size}")
+    }
+
+    //stepUp()
+
     Box(Modifier.background(MENU_COLOR).fillMaxSize()) {
         Column {
             Header()
-            Body()
+            Body(state, ::stepUp)
             Footer()
         }
     }
