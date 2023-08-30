@@ -1,5 +1,7 @@
 package com.volganl64.robotjump
 
+import kotlin.math.max
+
 import android.os.Bundle
 import android.content.res.Configuration
 import android.util.Log
@@ -82,6 +84,31 @@ class MainActivity : ComponentActivity() {
 }
 
 data class State(var moves: MutableState< List< Triple<Int, Int, Int> > >)
+data class Properties(val constraints: List<Int>)
+
+
+fun getStarNumber(moveCount: Int, constraints: List<Int>): Int
+{
+    var stars = 0
+    for (i in constraints.size - 1 downTo 0)
+    {
+        if (moveCount <= constraints[i])
+        {
+            stars = i + 1
+            break
+        }
+    }
+    return stars
+}
+
+
+fun stepUp(state: State)
+{
+    val last = state.moves.value.last()
+    state.moves.value = listOf(
+        *state.moves.value.toTypedArray(),
+        Triple(last.first, last.second + 1, last.third))
+}
 
 
 @Composable
@@ -106,38 +133,50 @@ fun ColumnScope.Header()
 
 
 @Composable
-fun RowScope.LeftBar(state: State, stepUp: () -> Unit)
+fun RowScope.LeftBar(state: State, properties: Properties)
 {
+    val starNumber = getStarNumber(
+        state.moves.value.size - 1, properties.constraints)
+
+    fun drawRemainingMoves(): String
+    {
+        val constraint = properties.constraints[max(0, starNumber - 1)]
+        return "${state.moves.value.size - 1}/$constraint"
+    }
+
     Box(Modifier.fillMaxHeight()
             .width(MENU_WIDTH)) {
         Column {
             Box(Modifier.padding(DEFAULT_MARGIN)
                     .fillMaxWidth().height(30.dp)) {
                 Row(Modifier.align(Alignment.Center)) {
-                    Box(Modifier.fillMaxHeight()) {
-                        Image(painter=painterResource(id=R.drawable.star),
-                              contentDescription="star",
-                              modifier=Modifier.align(Alignment.Center).size(STAR_SIZE),
-                        )
+                    for (i in 0 until starNumber)
+                    {
+                        Box(Modifier.fillMaxHeight()) {
+                            Image(painter=painterResource(id=R.drawable.star),
+                                  contentDescription="star",
+                                  modifier=Modifier.align(Alignment.Center).size(STAR_SIZE),
+                            )
+                        }
                     }
-                    Box(Modifier.fillMaxHeight()) {
-                        Image(painter=painterResource(id=R.drawable.star),
-                              contentDescription="star",
-                              modifier=Modifier.align(Alignment.Center).size(STAR_SIZE),
-                        )
-                    }
-                    Box(Modifier.fillMaxHeight()) {
-                        Image(painter=painterResource(id=R.drawable.star),
-                              contentDescription="star",
-                              modifier=Modifier.align(Alignment.Center).size(STAR_SIZE),
-                        )
-                    }
+                    // Box(Modifier.fillMaxHeight()) {
+                    //     Image(painter=painterResource(id=R.drawable.star),
+                    //           contentDescription="star",
+                    //           modifier=Modifier.align(Alignment.Center).size(STAR_SIZE),
+                    //     )
+                    // }
+                    // Box(Modifier.fillMaxHeight()) {
+                    //     Image(painter=painterResource(id=R.drawable.star),
+                    //           contentDescription="star",
+                    //           modifier=Modifier.align(Alignment.Center).size(STAR_SIZE),
+                    //     )
+                    // }
                 }
             }
             Box(Modifier.padding(start=DEFAULT_MARGIN, end=DEFAULT_MARGIN)
 
                     .fillMaxWidth().height(30.dp)) {
-                Text("${state.moves.value.size - 1}/10",
+                Text(drawRemainingMoves(),
                      modifier=Modifier.align(Alignment.Center),
                      style=TextStyle(
                          fontSize=MOVES_TEXT_SIZE,
@@ -146,12 +185,13 @@ fun RowScope.LeftBar(state: State, stepUp: () -> Unit)
             }
             Spacer(Modifier.weight(1f))
             Button(
-                stepUp,
+                { stepUp(state) },
                 Modifier.padding(start=DEFAULT_MARGIN, end=DEFAULT_MARGIN)
                     .fillMaxWidth().aspectRatio(1f),
                 shape=RoundedCornerShape(5.dp),
                 colors=ButtonDefaults.buttonColors(containerColor=BUTTON_COLOR),
                 contentPadding=PaddingValues(0.dp),
+                enabled=starNumber > 0,
             ) {
                 Column {
                     Box(Modifier.fillMaxWidth()) {
@@ -371,12 +411,12 @@ fun ColumnScope.Footer()
 
 
 @Composable
-fun ColumnScope.Body(state: State, stepUp: () -> Unit)
+fun ColumnScope.Body(state: State, properties: Properties)
 {
     Box(Modifier.weight(1f)
             .fillMaxWidth()) {
         Row {
-            LeftBar(state, stepUp)
+            LeftBar(state, properties)
             Screen()
         }
     }
@@ -392,23 +432,15 @@ fun DrawRobotLayout()
     }
 
     //var moves by state: State, stepUp: () -> Unit
-    var state = State(rememberSaveable { mutableStateOf(listOf(Triple(0, 0, 1))) })
-
-    fun stepUp() : Unit //moves: MutableState< List< Triple<Int, Int, Int> > >)
-    {
-        var last = state.moves.value.last()
-        state.moves.value = listOf(
-            *state.moves.value.toTypedArray(),
-            Triple(last.first, last.second + 1, last.third))
-        Log.i("jj", "fuck ${state.moves.value.size}")
-    }
+    val state = State(rememberSaveable { mutableStateOf(listOf(Triple(0, 0, 1))) })
+    val properties = Properties(listOf(13, 11, 10))
 
     //stepUp()
 
     Box(Modifier.background(MENU_COLOR).fillMaxSize()) {
         Column {
             Header()
-            Body(state, ::stepUp)
+            Body(state, properties)
             Footer()
         }
     }
