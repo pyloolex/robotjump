@@ -72,6 +72,15 @@ var MENU_COLOR = Color(240, 240, 240, 255)
 var LOST_COLOR = Color(255, 179, 179, 255)
 var WON_COLOR = Color(179, 255, 179, 255)
 
+enum class GAME_STATE {
+    IN_PROGRESS,
+    WON,
+    LOST,
+}
+
+data class State(var moves: MutableState< List< Triple<Int, Int, Int> > >)
+data class Properties(val target: Pair<Int, Int>, val constraints: List<Int>)
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,9 +91,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-data class State(var moves: MutableState< List< Triple<Int, Int, Int> > >)
-data class Properties(val constraints: List<Int>)
 
 
 fun getStarNumber(moveCount: Int, constraints: List<Int>): Int
@@ -102,17 +108,64 @@ fun getStarNumber(moveCount: Int, constraints: List<Int>): Int
 }
 
 
+fun getGameState(state: State, properties: Properties) : GAME_STATE
+{
+    val position = state.moves.value.last()
+    if (position.first == properties.target.first &&
+            position.second == properties.target.second)
+    {
+        return GAME_STATE.WON
+    }
+    if (getStarNumber(state.moves.value.size - 1, properties.constraints) == 0 ||
+            position.first > properties.target.first ||
+            position.second > properties.target.second)
+    {
+        return GAME_STATE.LOST
+    }
+    return GAME_STATE.IN_PROGRESS
+}
+
+
 fun stepUp(state: State)
 {
     val last = state.moves.value.last()
     state.moves.value = listOf(
         *state.moves.value.toTypedArray(),
-        Triple(last.first, last.second + 1, last.third))
+        Triple(last.first, last.second + last.third, last.third))
+}
+
+
+fun stepRight(state: State)
+{
+    val last = state.moves.value.last()
+    state.moves.value = listOf(
+        *state.moves.value.toTypedArray(),
+        Triple(last.first + last.third, last.second, last.third))
+}
+
+fun revertLast(state: State)
+{
+    state.moves.value = state.moves.value.dropLast(1)
+}
+
+
+fun restartGame(state: State)
+{
+    state.moves.value = listOf(Triple(0, 0, 1))
+}
+
+
+fun increaseJump(state: State)
+{
+    val last = state.moves.value.last()
+    state.moves.value = listOf(
+        *state.moves.value.toTypedArray(),
+        Triple(last.first, last.second, last.third + 1))
 }
 
 
 @Composable
-fun ColumnScope.Header()
+fun ColumnScope.Header(state: State, properties: Properties)
 {
     Box(Modifier.fillMaxWidth().height(50.dp)) {
         Box(Modifier.padding(DEFAULT_MARGIN).clip(RoundedCornerShape(5.dp))
@@ -191,7 +244,7 @@ fun RowScope.LeftBar(state: State, properties: Properties)
                 shape=RoundedCornerShape(5.dp),
                 colors=ButtonDefaults.buttonColors(containerColor=BUTTON_COLOR),
                 contentPadding=PaddingValues(0.dp),
-                enabled=starNumber > 0,
+                enabled=getGameState(state, properties) == GAME_STATE.IN_PROGRESS,
             ) {
                 Column {
                     Box(Modifier.fillMaxWidth()) {
@@ -202,7 +255,7 @@ fun RowScope.LeftBar(state: State, properties: Properties)
                     }
                     Box(Modifier.fillMaxWidth()) {
                         Text(
-                            "15",
+                            "${state.moves.value.last().third}",
                             Modifier.align(Alignment.Center),
                             style=TextStyle(
                                 fontSize=MOVES_TEXT_SIZE,
@@ -219,7 +272,7 @@ fun RowScope.LeftBar(state: State, properties: Properties)
 
 
 @Composable
-fun RowScope.Screen()
+fun RowScope.Screen(state: State, properties: Properties)
 {
     val textSize = with(LocalDensity.current) {
         ((LocalConfiguration.current.screenWidthDp.dp - MENU_WIDTH) /
@@ -250,7 +303,7 @@ fun RowScope.Screen()
                             )
                         }
                         Box(Modifier.fillMaxWidth()) {
-                            Text("(x=19; y=9)",
+                            Text("(x=${properties.target.first}; y=${properties.target.second})",
                                  modifier=Modifier.align(Alignment.Center),
                                  style=TextStyle(
                                      fontSize=textSize,
@@ -275,7 +328,7 @@ fun RowScope.Screen()
                             )
                         }
                         Box(Modifier.fillMaxWidth()) {
-                            Text("(x=0; y=0)",
+                            Text("(x=${state.moves.value.last().first}; y=${state.moves.value.last().second})",
                                  modifier=Modifier.align(Alignment.Center),
                                  style=TextStyle(
                                      fontSize=textSize,
@@ -310,18 +363,19 @@ fun RowScope.Screen()
 
 
 @Composable
-fun ColumnScope.Footer()
+fun ColumnScope.Footer(state: State, properties: Properties)
 {
     Box(Modifier.height(MENU_WIDTH)
             .fillMaxWidth()) {
         Row {
             Button(
-                {},
+                { increaseJump(state) },
                 Modifier.padding(DEFAULT_MARGIN)
                     .fillMaxHeight().aspectRatio(1f),
                 shape=RoundedCornerShape(5),
                 colors=ButtonDefaults.buttonColors(containerColor=BUTTON_COLOR),
                 contentPadding=PaddingValues(0.dp),
+                enabled=getGameState(state, properties) == GAME_STATE.IN_PROGRESS,
             ) {
                 Row {
                     Box(Modifier.fillMaxHeight()) {
@@ -344,17 +398,18 @@ fun ColumnScope.Footer()
                 }
             }
             Button(
-                {},
+                { stepRight(state) },
                 Modifier.padding(top=DEFAULT_MARGIN, bottom=DEFAULT_MARGIN)
                     .fillMaxHeight().aspectRatio(1f),
                 shape=RoundedCornerShape(5),
                 colors=ButtonDefaults.buttonColors(containerColor=BUTTON_COLOR),
                 contentPadding=PaddingValues(0.dp),
+                enabled=getGameState(state, properties) == GAME_STATE.IN_PROGRESS,
             ) {
                 Row {
                     Box(Modifier.fillMaxHeight()) {
                         Text(
-                            "15",
+                            "${state.moves.value.last().third}",
                             Modifier.align(Alignment.Center),
                             style=TextStyle(
                                 fontSize=MOVES_TEXT_SIZE,
@@ -374,7 +429,7 @@ fun ColumnScope.Footer()
             }
             Spacer(Modifier.weight(1f))
             Button(
-                {},
+                { revertLast(state) },
                 Modifier.padding(top=DEFAULT_MARGIN, bottom=DEFAULT_MARGIN)
                     .fillMaxHeight().aspectRatio(1f),
                 shape=RoundedCornerShape(5),
@@ -389,7 +444,7 @@ fun ColumnScope.Footer()
                 }
             }
             Button(
-                {},
+                { restartGame(state) },
                 Modifier.padding(DEFAULT_MARGIN)
                     .fillMaxHeight().aspectRatio(1f),
                 shape=RoundedCornerShape(5),
@@ -417,7 +472,7 @@ fun ColumnScope.Body(state: State, properties: Properties)
             .fillMaxWidth()) {
         Row {
             LeftBar(state, properties)
-            Screen()
+            Screen(state, properties)
         }
     }
 }
@@ -433,15 +488,15 @@ fun DrawRobotLayout()
 
     //var moves by state: State, stepUp: () -> Unit
     val state = State(rememberSaveable { mutableStateOf(listOf(Triple(0, 0, 1))) })
-    val properties = Properties(listOf(13, 11, 10))
+    val properties = Properties(Pair(19, 9), listOf(13, 11, 10))
 
     //stepUp()
 
     Box(Modifier.background(MENU_COLOR).fillMaxSize()) {
         Column {
-            Header()
+            Header(state, properties)
             Body(state, properties)
-            Footer()
+            Footer(state, properties)
         }
     }
 }
