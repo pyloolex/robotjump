@@ -75,7 +75,8 @@ var WON_COLOR = Color(179, 255, 179, 255)
 enum class GAME_STATE {
     IN_PROGRESS,
     WON,
-    LOST,
+    TOO_MANY_MOVES,
+    BEYOND_TARGET,
 }
 
 data class State(var moves: MutableState< List< Triple<Int, Int, Int> > >)
@@ -116,11 +117,14 @@ fun getGameState(state: State, properties: Properties) : GAME_STATE
     {
         return GAME_STATE.WON
     }
-    if (getStarNumber(state.moves.value.size - 1, properties.constraints) == 0 ||
-            position.first > properties.target.first ||
+    if (position.first > properties.target.first ||
             position.second > properties.target.second)
     {
-        return GAME_STATE.LOST
+        return GAME_STATE.BEYOND_TARGET
+    }
+    if (getStarNumber(state.moves.value.size - 1, properties.constraints) == 0)
+    {
+        return GAME_STATE.TOO_MANY_MOVES
     }
     return GAME_STATE.IN_PROGRESS
 }
@@ -145,7 +149,10 @@ fun stepRight(state: State)
 
 fun revertLast(state: State)
 {
-    state.moves.value = state.moves.value.dropLast(1)
+    if (state.moves.value.size > 1)
+    {
+        state.moves.value = state.moves.value.dropLast(1)
+    }
 }
 
 
@@ -167,18 +174,43 @@ fun increaseJump(state: State)
 @Composable
 fun ColumnScope.Header(state: State, properties: Properties)
 {
+    fun buildMessage(gameState: GAME_STATE) : String
+    {
+        if (gameState == GAME_STATE.WON)
+        {
+            return "You won!"
+        }
+
+        val reason: String = if (gameState == GAME_STATE.TOO_MANY_MOVES)
+        {
+            "too many moves"
+        }
+        else
+        {
+            assert(gameState == GAME_STATE.BEYOND_TARGET)
+            "beyond the target"
+        }
+
+        return "You lost: $reason."
+    }
+
     Box(Modifier.fillMaxWidth().height(50.dp)) {
-        Box(Modifier.padding(DEFAULT_MARGIN).clip(RoundedCornerShape(5.dp))
-                .background(LOST_COLOR)
-                .fillMaxSize(),
-            contentAlignment=Alignment.Center) {
-            Row {
-                Text("You lost: beyond the target.",
-                     style=TextStyle(
-                         fontSize=MOVES_TEXT_SIZE,
-                         fontFamily=FONT_FAMILY,
-                     )
-                )
+        val gameState = getGameState(state, properties)
+        if (gameState != GAME_STATE.IN_PROGRESS)
+        {
+            Box(Modifier.padding(DEFAULT_MARGIN).clip(RoundedCornerShape(5.dp))
+                    .background(
+                        if (gameState == GAME_STATE.WON) WON_COLOR else LOST_COLOR)
+                    .fillMaxSize(),
+                contentAlignment=Alignment.Center) {
+                Row {
+                    Text(buildMessage(gameState),
+                         style=TextStyle(
+                             fontSize=MOVES_TEXT_SIZE,
+                             fontFamily=FONT_FAMILY,
+                         )
+                    )
+                }
             }
         }
     }
