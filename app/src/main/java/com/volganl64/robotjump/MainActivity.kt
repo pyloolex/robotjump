@@ -58,6 +58,11 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.NavController
+
 import com.volganl64.robotjump.ui.theme.RobotJumpTheme
 
 
@@ -522,9 +527,10 @@ fun ColumnScope.Body(state: State, properties: Properties)
 }
 
 
-@Preview
+//@Preview
 @Composable
 fun DrawRobotLayout(navigation: NavController)
+//fun DrawRobotLayout()
 {
     MOVES_TEXT_SIZE = with(LocalDensity.current) {
         16.dp.toSp()
@@ -556,6 +562,6 @@ fun LevelsScreen(navigation: NavController)
                 shape=RoundedCornerShape(5),
                 colors=ButtonDefaults.buttonColors(containerColor=BUTTON_COLOR),
                 contentPadding=PaddingValues(0.dp),
-        ) {
+        ) {}
     }
 }
