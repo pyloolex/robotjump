@@ -88,7 +88,19 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            DrawRobotLayout()
+            //DrawRobotLayout()
+            val navController = rememberNavController()
+            NavHost(navController=navController, startDestination="levels")
+            {
+                composable("levels")
+                {
+                    LevelsScreen(navigation=navController)
+                }
+                composable("game")
+                {
+                    DrawRobotLayout(navigation=navController)
+                }
+            }
         }
     }
 }
@@ -512,7 +524,7 @@ fun ColumnScope.Body(state: State, properties: Properties)
 
 @Preview
 @Composable
-fun DrawRobotLayout()
+fun DrawRobotLayout(navigation: NavController)
 {
     MOVES_TEXT_SIZE = with(LocalDensity.current) {
         16.dp.toSp()
@@ -530,5 +542,20 @@ fun DrawRobotLayout()
             Body(state, properties)
             Footer(state, properties)
         }
+    }
+}
+
+
+@Composable
+fun LevelsScreen(navigation: NavController)
+{
+    Box(Modifier.background(Color.Blue).fillMaxSize()) {
+        Button(
+                { navigation.navigate("game") },
+                Modifier.padding(DEFAULT_MARGIN).height(30.dp).width(30.dp),
+                shape=RoundedCornerShape(5),
+                colors=ButtonDefaults.buttonColors(containerColor=BUTTON_COLOR),
+                contentPadding=PaddingValues(0.dp),
+        ) {
     }
 }
