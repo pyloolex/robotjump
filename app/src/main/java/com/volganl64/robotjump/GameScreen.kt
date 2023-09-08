@@ -467,7 +467,7 @@ fun GameScreen(navigation: NavController)
     }
 
     val state = State(rememberSaveable { mutableStateOf(listOf(Triple(0, 0, 1))) })
-    val properties = LevelProperties(Pair(19, 9), listOf(13, 11, 10))
+    val properties = Levels[14] //LevelProperties(Pair(19, 9), listOf(13, 11, 10))
 
     Box(Modifier.background(MENU_COLOR).fillMaxSize()) {
         Column {
