@@ -22,7 +22,7 @@ fun LevelsScreen(navigation: NavController)
 {
     Box(Modifier.background(Color.Blue).fillMaxSize()) {
         Button(
-                { navigation.navigate("game") },
+                { navigation.navigate("game/2") },
                 Modifier.padding(DEFAULT_MARGIN).height(30.dp).width(30.dp),
                 shape=RoundedCornerShape(5),
                 colors=ButtonDefaults.buttonColors(containerColor=BUTTON_COLOR),

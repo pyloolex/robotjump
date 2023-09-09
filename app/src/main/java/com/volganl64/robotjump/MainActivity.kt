@@ -6,6 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import androidx.navigation.NavType
 
 
 class MainActivity : ComponentActivity() {
@@ -20,9 +22,15 @@ class MainActivity : ComponentActivity() {
                 {
                     LevelsScreen(navigation=navController)
                 }
-                composable("game")
-                {
-                    GameScreen(navigation=navController)
+                composable(
+                    "game/{level_idx}",
+                    arguments=listOf(
+                        navArgument("level_idx") { type=NavType.IntType },
+                    )
+                )
+                { backStackEntry ->
+                    GameScreen(navigation=navController,
+                               backStackEntry.arguments!!.getInt("level_idx"))
                 }
             }
         }

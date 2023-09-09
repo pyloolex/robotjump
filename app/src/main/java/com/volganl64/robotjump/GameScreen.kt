@@ -460,14 +460,14 @@ fun ColumnScope.Footer(state: State, properties: LevelProperties)
 
 //@Preview
 @Composable
-fun GameScreen(navigation: NavController)
+fun GameScreen(navigation: NavController, level_idx: Int)
 {
     MOVES_TEXT_SIZE = with(LocalDensity.current) {
         16.dp.toSp()
     }
 
     val state = State(rememberSaveable { mutableStateOf(listOf(Triple(0, 0, 1))) })
-    val properties = Levels[14] //LevelProperties(Pair(19, 9), listOf(13, 11, 10))
+    val properties = Levels[level_idx]
 
     Box(Modifier.background(MENU_COLOR).fillMaxSize()) {
         Column {
