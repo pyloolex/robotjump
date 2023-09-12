@@ -69,4 +69,9 @@ dependencies {
 
     // I added.
     implementation("androidx.navigation:navigation-compose:2.7.1")
+
+    val roomVersion = "2.5.2"
+    implementation("androidx.room:room-common:$roomVersion")
+    //annotationProcessor("androidx.room:room-compiler:$roomVersion")
+    //kapt("androidx.room:room-compiler:$roomVersion")
 }
