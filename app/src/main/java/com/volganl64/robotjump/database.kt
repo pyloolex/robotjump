@@ -1,11 +1,13 @@
 package com.volganl64.robotjump
 
+import android.content.Context
 import androidx.room.ColumnInfo
 import androidx.room.Dao
 import androidx.room.Database
 import androidx.room.Entity
 import androidx.room.Insert
 import androidx.room.PrimaryKey
+import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.Query
 import androidx.room.Update
@@ -43,4 +45,16 @@ interface ScoreDao
 abstract class AppDatabase : RoomDatabase()
 {
     abstract fun scoreDao() : ScoreDao
+
+    companion object
+    {
+        lateinit var instance : AppDatabase
+        fun init(applicationContext : Context)
+        {
+            instance = Room.databaseBuilder(
+                applicationContext,
+                AppDatabase::class.java, "robot-db",
+            ).build()
+        }
+    }
 }
