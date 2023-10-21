@@ -53,8 +53,8 @@ abstract class AppDatabase : RoomDatabase()
         {
             instance = Room.databaseBuilder(
                 applicationContext,
-                AppDatabase::class.java, "robot-db",
-            ).build()
+                AppDatabase::class.java, "robot-db"
+            ).allowMainThreadQueries().build()
         }
     }
 }

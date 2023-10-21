@@ -2,6 +2,8 @@ package com.volganl64.robotjump
 
 import kotlin.math.max
 
+import android.util.Log
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.Image
@@ -468,6 +470,8 @@ fun GameScreen(navigation: NavController, level_idx: Int)
 
     val state = State(rememberSaveable { mutableStateOf(listOf(Triple(0, 0, 1))) })
     val properties = Levels[level_idx]
+    //AppDatabase.instance.scoreDao().init(Score(level_idx, 3))
+    Log.e("jj", AppDatabase.instance.scoreDao().getAll().contentToString())
 
     Box(Modifier.background(MENU_COLOR).fillMaxSize()) {
         Column {
