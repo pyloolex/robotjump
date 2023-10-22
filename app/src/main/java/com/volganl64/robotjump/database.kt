@@ -28,7 +28,7 @@ data class Score(
 interface ScoreDao
 {
     @Insert
-    fun init(vararg scores: Score)
+    fun insert(vararg scores: Score)
 
     @Update
     fun update(score: Score)
@@ -38,6 +38,14 @@ interface ScoreDao
 
     @Query("SELECT * FROM Score")
     fun getAll(): Array<Score>
+
+    @Query("DELETE FROM Score")
+    fun deleteAll()
+
+    fun init()
+    {
+        this.insert(*Array(Levels.size) { Score(it, 0) })
+    }
 }
 
 

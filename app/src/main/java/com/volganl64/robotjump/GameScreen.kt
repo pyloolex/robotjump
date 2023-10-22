@@ -471,7 +471,7 @@ fun GameScreen(navigation: NavController, level_idx: Int)
     val state = State(rememberSaveable { mutableStateOf(listOf(Triple(0, 0, 1))) })
     val properties = Levels[level_idx]
     //AppDatabase.instance.scoreDao().init(Score(level_idx, 3))
-    Log.e("jj", AppDatabase.instance.scoreDao().getAll().contentToString())
+    Log.e("jj all", AppDatabase.instance.scoreDao().getAll().contentToString())
 
     Box(Modifier.background(MENU_COLOR).fillMaxSize()) {
         Column {

@@ -26,6 +26,8 @@ import androidx.navigation.NavController
 @Composable
 fun LevelsScreen(navigation: NavController)
 {
+    AppDatabase.instance.scoreDao().deleteAll()
+    AppDatabase.instance.scoreDao().init()
     Box(Modifier.background(Color.Blue).fillMaxSize()) {
         LazyColumn {
             itemsIndexed(Levels) { i, level ->
