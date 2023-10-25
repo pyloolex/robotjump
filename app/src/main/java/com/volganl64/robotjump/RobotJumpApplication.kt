@@ -10,10 +10,5 @@ class RobotJumpApplication : Application()
     {
         super.onCreate()
         AppDatabase.init(this)
-        // val instance = Room.databaseBuilder(
-        //         applicationContext,
-        //         AppDatabase::class.java, "robot-db",
-        //     ).build()
-
     }
 }

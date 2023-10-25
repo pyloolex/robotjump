@@ -59,10 +59,13 @@ abstract class AppDatabase : RoomDatabase()
         lateinit var instance : AppDatabase
         fun init(applicationContext : Context)
         {
-            instance = Room.databaseBuilder(
-                applicationContext,
-                AppDatabase::class.java, "robot-db"
-            ).allowMainThreadQueries().build()
+            instance = (
+                Room.databaseBuilder(
+                    applicationContext,
+                    AppDatabase::class.java, "robot-db"
+                ).createFromAsset("database/robot-db.db")
+                    .allowMainThreadQueries().build()
+            )
         }
     }
 }

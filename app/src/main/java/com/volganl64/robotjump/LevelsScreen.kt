@@ -26,8 +26,15 @@ import androidx.navigation.NavController
 @Composable
 fun LevelsScreen(navigation: NavController)
 {
-    AppDatabase.instance.scoreDao().deleteAll()
-    AppDatabase.instance.scoreDao().init()
+    // Init for saving DB for assets.
+    // AppDatabase.instance.scoreDao().deleteAll();
+    // AppDatabase.instance.scoreDao().init()
+
+    // Move data from `shm` and `wal` temporary files to the DB
+    // before saving it for assets.
+    // val cursor = AppDatabase.instance.query("PRAGMA wal_checkpoint", arrayOf())
+    // cursor.moveToFirst()
+
     Box(Modifier.background(Color.Blue).fillMaxSize()) {
         LazyColumn {
             itemsIndexed(Levels) { i, level ->
