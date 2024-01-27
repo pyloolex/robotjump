@@ -1,5 +1,7 @@
 package com.volganl64.robotjump
 
+import android.util.Log
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -35,6 +37,12 @@ fun LevelsScreen(navigation: NavController)
     // val cursor = AppDatabase.instance.query("PRAGMA wal_checkpoint", arrayOf())
     // cursor.moveToFirst()
 
+    val arr = IntArray(Levels.size) {0}
+    for (score in AppDatabase.instance.scoreDao().getAll())
+    {
+        arr[score.id] = score.stars
+    }
+
     Box(Modifier.background(Color.Blue).fillMaxSize()) {
         LazyColumn {
             itemsIndexed(Levels) { i, level ->
@@ -45,7 +53,7 @@ fun LevelsScreen(navigation: NavController)
                     colors=ButtonDefaults.buttonColors(containerColor=BUTTON_COLOR),
                     contentPadding=PaddingValues(0.dp),
                 ) {
-                    Text("${i + 1} (0)")
+                    Text("${i + 1} (${arr[i]})")
                 }
             }
         }
