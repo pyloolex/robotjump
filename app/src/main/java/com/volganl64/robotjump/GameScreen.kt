@@ -98,21 +98,38 @@ fun getGameState(state: State, properties: LevelProperties) : GAME_STATE
 }
 
 
-fun stepUp(state: State)
+fun checkMove(state: State, properties: LevelProperties,
+              levelIdx: Int, bestScore: Int)
+{
+    val stars = getStarNumber(state.moves.value.size - 1,
+                              properties.constraints)
+    if (getGameState(state, properties) == GAME_STATE.WON &&
+            stars > bestScore)
+    {
+        AppDatabase.instance.scoreDao().update(Score(levelIdx, stars))
+    }
+}
+
+
+fun stepUp(state: State, properties: LevelProperties,
+           levelIdx: Int, bestScore: Int)
 {
     val last = state.moves.value.last()
     state.moves.value = listOf(
         *state.moves.value.toTypedArray(),
         Triple(last.first, last.second + last.third, last.third))
+    checkMove(state, properties, levelIdx, bestScore)
 }
 
 
-fun stepRight(state: State)
+fun stepRight(state: State, properties: LevelProperties,
+              levelIdx: Int, bestScore: Int)
 {
     val last = state.moves.value.last()
     state.moves.value = listOf(
         *state.moves.value.toTypedArray(),
         Triple(last.first + last.third, last.second, last.third))
+    checkMove(state, properties, levelIdx, bestScore)
 }
 
 fun revertLast(state: State)
@@ -186,7 +203,8 @@ fun ColumnScope.Header(state: State, properties: LevelProperties)
 
 
 @Composable
-fun RowScope.LeftBar(state: State, properties: LevelProperties)
+fun RowScope.LeftBar(state: State, properties: LevelProperties,
+                     levelIdx: Int, bestScore: Int)
 {
     val starNumber = getStarNumber(
         state.moves.value.size - 1, properties.constraints)
@@ -238,7 +256,7 @@ fun RowScope.LeftBar(state: State, properties: LevelProperties)
             }
             Spacer(Modifier.weight(1f))
             Button(
-                { stepUp(state) },
+                { stepUp(state, properties, levelIdx, bestScore) },
                 Modifier.padding(start=DEFAULT_MARGIN, end=DEFAULT_MARGIN)
                     .fillMaxWidth().aspectRatio(1f),
                 shape=RoundedCornerShape(5.dp),
@@ -347,12 +365,13 @@ fun RowScope.Screen(state: State, properties: LevelProperties)
 
 
 @Composable
-fun ColumnScope.Body(state: State, properties: LevelProperties)
+fun ColumnScope.Body(state: State, properties: LevelProperties,
+                     levelIdx: Int, bestScore: Int)
 {
     Box(Modifier.weight(1f)
             .fillMaxWidth()) {
         Row {
-            LeftBar(state, properties)
+            LeftBar(state, properties, levelIdx, bestScore)
             Screen(state, properties)
         }
     }
@@ -360,7 +379,8 @@ fun ColumnScope.Body(state: State, properties: LevelProperties)
 
 
 @Composable
-fun ColumnScope.Footer(state: State, properties: LevelProperties)
+fun ColumnScope.Footer(state: State, properties: LevelProperties,
+                       levelIdx: Int, bestScore: Int)
 {
     Box(Modifier.height(MENU_WIDTH)
             .fillMaxWidth()) {
@@ -395,7 +415,7 @@ fun ColumnScope.Footer(state: State, properties: LevelProperties)
                 }
             }
             Button(
-                { stepRight(state) },
+                { stepRight(state, properties, levelIdx, bestScore) },
                 Modifier.padding(top=DEFAULT_MARGIN, bottom=DEFAULT_MARGIN)
                     .fillMaxHeight().aspectRatio(1f),
                 shape=RoundedCornerShape(5),
@@ -462,22 +482,23 @@ fun ColumnScope.Footer(state: State, properties: LevelProperties)
 
 //@Preview
 @Composable
-fun GameScreen(navigation: NavController, level_idx: Int)
+fun GameScreen(navigation: NavController, levelIdx: Int)
 {
     MOVES_TEXT_SIZE = with(LocalDensity.current) {
         16.dp.toSp()
     }
 
     val state = State(rememberSaveable { mutableStateOf(listOf(Triple(0, 0, 1))) })
-    val properties = Levels[level_idx]
-    //AppDatabase.instance.scoreDao().update(Score(level_idx, 3))
+    val properties = Levels[levelIdx]
+    val bestScore = AppDatabase.instance.scoreDao().get(levelIdx).stars
+    //AppDatabase.instance.scoreDao().update(Score(levelIdx, 3))
     Log.e("jj all", AppDatabase.instance.scoreDao().getAll().contentToString())
 
     Box(Modifier.background(MENU_COLOR).fillMaxSize()) {
         Column {
             Header(state, properties)
-            Body(state, properties)
-            Footer(state, properties)
+            Body(state, properties, levelIdx, bestScore)
+            Footer(state, properties, levelIdx, bestScore)
         }
     }
 }
