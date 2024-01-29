@@ -19,8 +19,16 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val navController = rememberNavController()
-            NavHost(navController=navController, startDestination="levels")
+            NavHost(navController=navController, startDestination="greeting")
             {
+                composable("greeting")
+                {
+                    GreetingScreen(navigation=navController)
+                }
+                composable("rules")
+                {
+                    RulesScreen()
+                }
                 composable("levels")
                 {
                     LevelsScreen(navigation=navController)
