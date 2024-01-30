@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -19,24 +20,28 @@ import androidx.navigation.NavController
 @Composable
 fun GreetingScreen(navigation: NavController)
 {
-    Box(Modifier.background(Color.Blue).fillMaxSize()) {
+    Box(Modifier.background(MENU_COLOR).fillMaxSize(),
+        contentAlignment=Alignment.Center)
+    {
         Column {
+            Text("Robot Jump")
             Button(
-            { navigation.navigate("levels") },
-            Modifier.padding(DEFAULT_MARGIN).height(170.dp).width(170.dp),
+                { navigation.navigate("levels") },
+                Modifier.padding(DEFAULT_MARGIN).height(100.dp).width(170.dp),
             )
             {
                 Text("Play")
             }
 
             Button(
-            { navigation.navigate("rules") },
-            Modifier.padding(DEFAULT_MARGIN).height(170.dp).width(170.dp),
+                { navigation.navigate("rules") },
+                Modifier.padding(DEFAULT_MARGIN).height(100.dp).width(170.dp),
             )
             {
                 Text("Rules")
             }
         }
+
     }
     // Box(Modifier.background(Color.Blue).fillMaxSize()) {
     //     LazyColumn {
