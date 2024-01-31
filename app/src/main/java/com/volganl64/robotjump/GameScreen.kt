@@ -43,13 +43,13 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
 
-val MENU_WIDTH = 80.dp
-val STAR_SIZE = 20.dp
-var MOVES_TEXT_SIZE = 100.sp // To be overwritten inside Composable.
-var BUTTON_COLOR = Color(200, 200, 200, 255)
-var SCREEN_COLOR = Color(230, 230, 230, 255)
-var LOST_COLOR = Color(255, 179, 179, 255)
-var WON_COLOR = Color(179, 255, 179, 255)
+private val MENU_WIDTH = 80.dp
+private val STAR_SIZE = 20.dp
+private var MOVES_TEXT_SIZE = 100.sp // To be overwritten inside Composable.
+private var BUTTON_COLOR = Color(200, 200, 200, 255)
+private var SCREEN_COLOR = Color(230, 230, 230, 255)
+private var LOST_COLOR = Color(255, 179, 179, 255)
+private var WON_COLOR = Color(179, 255, 179, 255)
 
 enum class GAME_STATE {
     IN_PROGRESS,

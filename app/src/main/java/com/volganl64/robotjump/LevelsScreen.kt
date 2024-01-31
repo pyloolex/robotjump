@@ -50,7 +50,7 @@ fun LevelsScreen(navigation: NavController)
                     { navigation.navigate("game/$i") },
                     Modifier.padding(DEFAULT_MARGIN).height(70.dp).width(70.dp),
                     shape=RoundedCornerShape(5),
-                    colors=ButtonDefaults.buttonColors(containerColor=BUTTON_COLOR),
+                    colors=ButtonDefaults.buttonColors(containerColor=Color.Cyan),
                     contentPadding=PaddingValues(0.dp),
                 ) {
                     Text("${i + 1} (${arr[i]})")

@@ -3,9 +3,12 @@ package com.volganl64.robotjump
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -13,8 +16,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
 import androidx.navigation.NavController
+
+
+private const val BUTTON_HEIGHT = 0.1f
+private const val BUTTON_WIDTH = 0.5f
 
 
 @Composable
@@ -23,23 +32,34 @@ fun GreetingScreen(navigation: NavController)
     Box(Modifier.background(MENU_COLOR).fillMaxSize(),
         contentAlignment=Alignment.Center)
     {
-        Column {
-            Text("Robot Jump")
-            Button(
+        Column(Modifier.fillMaxSize()) {
+            Box(Modifier.weight(3.5f).background(Color.Yellow))
+            Column(Modifier.weight(3f))
+            {
+                Text("Robot Jump")
+                Button(
                 { navigation.navigate("levels") },
-                Modifier.padding(DEFAULT_MARGIN).height(100.dp).width(170.dp),
-            )
-            {
-                Text("Play")
-            }
+                Modifier
+                //.padding(DEFAULT_MARGIN)
+                //.fillMaxHeight(BUTTON_HEIGHT)
+                    .fillMaxWidth(BUTTON_WIDTH)
+                )
+                {
+                    Text("Play")
+                }
 
-            Button(
+                Button(
                 { navigation.navigate("rules") },
-                Modifier.padding(DEFAULT_MARGIN).height(100.dp).width(170.dp),
-            )
-            {
-                Text("Rules")
+                Modifier
+                //.padding(DEFAULT_MARGIN)
+                // .fillMaxHeight(BUTTON_HEIGHT)
+                    .fillMaxWidth(BUTTON_WIDTH)
+                )
+                {
+                    Text("Rules")
+                }
             }
+            Spacer(Modifier.weight(3.5f))
         }
 
     }
@@ -58,4 +78,13 @@ fun GreetingScreen(navigation: NavController)
     //         }
     //     }
     // }
+}
+
+
+@Preview
+@Composable
+fun GreetingPreview()
+{
+    val navController = rememberNavController()
+    GreetingScreen(navController)
 }
