@@ -16,36 +16,67 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.NavController
 
 
 private const val BUTTON_HEIGHT = 0.1f
+private val BUTTON_TEXT_SIZE = 20.sp
 private const val BUTTON_WIDTH = 0.5f
 
 
 @Composable
 fun GreetingScreen(navigation: NavController)
 {
+    val robotJumpSize = with(LocalDensity.current) {
+        (LocalConfiguration.current.screenWidthDp.dp / 15).toSp()
+    }
+    val buttonTextSize = with(LocalDensity.current) {
+        (LocalConfiguration.current.screenHeightDp.dp / 30).toSp()
+    }
+
     Box(Modifier.background(MENU_COLOR).fillMaxSize(),
         contentAlignment=Alignment.Center)
     {
         Column(Modifier.background(Color.Blue)) {
             Box(Modifier.background(Color.Yellow).weight(3f)) {Text("blah")}
-            Column(Modifier.background(Color.Green).weight(3f))
+            Column(Modifier.background(Color.Green)
+                       .fillMaxWidth(BUTTON_WIDTH)
+                       .weight(6f))
             {
-                Text("Robot Jump", Modifier.weight(20f))
+                Box(Modifier.weight(20f).fillMaxWidth(),
+                    contentAlignment=Alignment.Center)
+                {
+                    Text(
+                        "Robot Jump",
+                        style=TextStyle(
+                            fontSize=robotJumpSize,
+                            fontFamily=FONT_FAMILY,
+                        )
+                    )
+                }
+
                 Button(
                 { navigation.navigate("levels") },
                 Modifier
                 .padding(DEFAULT_MARGIN)
                 //.fillMaxHeight(BUTTON_HEIGHT)
-                    .fillMaxWidth(BUTTON_WIDTH).weight(10f)
+                    .fillMaxWidth().weight(10f)
                 )
                 {
-                    Text("Play")
+                    Text(
+                        "Play",
+                        style=TextStyle(
+                            fontSize=buttonTextSize,
+                            fontFamily=FONT_FAMILY,
+                        ),
+                    )
                 }
 
                 Button(
@@ -53,10 +84,16 @@ fun GreetingScreen(navigation: NavController)
                 Modifier
                 .padding(DEFAULT_MARGIN)
                 // .fillMaxHeight(BUTTON_HEIGHT)
-                    .fillMaxWidth(BUTTON_WIDTH).weight(10f)
+                    .fillMaxWidth().weight(10f)
                 )
                 {
-                    Text("Rules")
+                    Text(
+                        "Rules",
+                        style=TextStyle(
+                            fontSize=buttonTextSize,
+                            fontFamily=FONT_FAMILY,
+                        ),
+                    )
                 }
             }
             Box(Modifier.background(Color.Magenta).weight(3f)) {Text("hello")}
