@@ -44,11 +44,9 @@ fun GreetingScreen(navigation: NavController)
     Box(Modifier.background(MENU_COLOR).fillMaxSize(),
         contentAlignment=Alignment.Center)
     {
-        Column(Modifier.background(Color.Blue)) {
-            Box(Modifier.background(Color.Yellow).weight(3f)) {Text("blah")}
-            Column(Modifier.background(Color.Green)
-                       .fillMaxWidth(BUTTON_WIDTH)
-                       .weight(6f))
+        Column(Modifier.fillMaxWidth(BUTTON_WIDTH)) {
+            Box(Modifier.weight(3f))
+            Column(Modifier.weight(6f))
             {
                 Box(Modifier.weight(20f).fillMaxWidth(),
                     contentAlignment=Alignment.Center)
@@ -65,8 +63,7 @@ fun GreetingScreen(navigation: NavController)
                 Button(
                 { navigation.navigate("levels") },
                 Modifier
-                .padding(DEFAULT_MARGIN)
-                //.fillMaxHeight(BUTTON_HEIGHT)
+                    .padding(DEFAULT_MARGIN)
                     .fillMaxWidth().weight(10f)
                 )
                 {
@@ -82,8 +79,7 @@ fun GreetingScreen(navigation: NavController)
                 Button(
                 { navigation.navigate("rules") },
                 Modifier
-                .padding(DEFAULT_MARGIN)
-                // .fillMaxHeight(BUTTON_HEIGHT)
+                    .padding(DEFAULT_MARGIN)
                     .fillMaxWidth().weight(10f)
                 )
                 {
@@ -96,7 +92,7 @@ fun GreetingScreen(navigation: NavController)
                     )
                 }
             }
-            Box(Modifier.background(Color.Magenta).weight(3f)) {Text("hello")}
+            Box(Modifier.weight(3f))
         }
 
     }
