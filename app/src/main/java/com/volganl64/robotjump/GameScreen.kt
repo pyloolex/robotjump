@@ -43,9 +43,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
 
+private var HEADER_TEXT_SIZE = 0.sp // To be overwritten inside Composable.
 private val MENU_WIDTH = 80.dp
 private val STAR_SIZE = 20.dp
-private var MOVES_TEXT_SIZE = 100.sp // To be overwritten inside Composable.
+private var MOVES_TEXT_SIZE = 0.sp // To be overwritten inside Composable.
 private var BUTTON_COLOR = Color(200, 200, 200, 255)
 private var SCREEN_COLOR = Color(230, 230, 230, 255)
 private var LOST_COLOR = Color(255, 179, 179, 255)
@@ -190,7 +191,7 @@ fun ColumnScope.Header(state: State, properties: LevelProperties)
                 Row {
                     Text(buildMessage(gameState),
                          style=TextStyle(
-                             fontSize=MOVES_TEXT_SIZE,
+                             fontSize=HEADER_TEXT_SIZE,
                              fontFamily=FONT_FAMILY,
                          )
                     )
@@ -485,6 +486,9 @@ fun GameScreen(navigation: NavController, levelIdx: Int)
 {
     MOVES_TEXT_SIZE = with(LocalDensity.current) {
         16.dp.toSp()
+    }
+    HEADER_TEXT_SIZE = with(LocalDensity.current) {
+        HEADER_TEXT_SIZE_BASE.toSp()
     }
 
     val state = State(rememberSaveable { mutableStateOf(listOf(Triple(0, 0, 1))) })

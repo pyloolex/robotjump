@@ -22,10 +22,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.NavController
+
+
+private var HEADER_TEXT_SIZE = 0.sp // To be overwritten inside Composable.
 
 
 @Composable
@@ -40,6 +46,10 @@ fun LevelsScreen(navigation: NavController)
     // val cursor = AppDatabase.instance.query("PRAGMA wal_checkpoint", arrayOf())
     // cursor.moveToFirst()
 
+    HEADER_TEXT_SIZE = with(LocalDensity.current) {
+        HEADER_TEXT_SIZE_BASE.toSp()
+    }
+
     val arr = IntArray(Levels.size) {0}
     var starCount = 0
     for (score in AppDatabase.instance.scoreDao().getAll())
@@ -53,7 +63,13 @@ fun LevelsScreen(navigation: NavController)
         Column {
             Box(Modifier.background(Color.Red).fillMaxWidth().height(50.dp),
                 contentAlignment=Alignment.Center) {
-                Text("Stars collected: ${starCount}/${Levels.size * 3}")
+                Text(
+                    "Stars collected: ${starCount}/${Levels.size * 3}",
+                    style=TextStyle(
+                        fontSize=HEADER_TEXT_SIZE,
+                        fontFamily=FONT_FAMILY,
+                    ),
+                )
 
         // val gameState = getGameState(state, properties)
         // if (gameState != GAME_STATE.IN_PROGRESS)
