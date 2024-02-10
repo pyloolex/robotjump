@@ -12,8 +12,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -93,14 +94,16 @@ fun LevelsScreen(navigation: NavController)
 
 
             Box(Modifier.background(Color.Blue).fillMaxSize()) {
-                LazyColumn {
+                LazyVerticalGrid(
+                    GridCells.Fixed(3)
+                ) {
                     itemsIndexed(Levels) { i, level ->
                         Button(
-                    { navigation.navigate("game/$i") },
-                    Modifier.padding(DEFAULT_MARGIN).height(70.dp).width(70.dp),
-                    shape=RoundedCornerShape(5),
-                    colors=ButtonDefaults.buttonColors(containerColor=Color.Cyan),
-                    contentPadding=PaddingValues(0.dp),
+                            { navigation.navigate("game/$i") },
+                            Modifier.padding(DEFAULT_MARGIN).height(70.dp).width(70.dp),
+                            shape=RoundedCornerShape(5),
+                            colors=ButtonDefaults.buttonColors(containerColor=Color.Cyan),
+                            contentPadding=PaddingValues(0.dp),
                         ) {
                             Text("${i + 1} (${arr[i]})")
                         }
