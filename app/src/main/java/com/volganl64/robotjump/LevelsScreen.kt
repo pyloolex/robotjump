@@ -36,27 +36,10 @@ private var HEADER_TEXT_SIZE = 0.sp // To be overwritten inside Composable.
 
 
 @Composable
-fun LevelsScreen(navigation: NavController)
+fun drawLevels(navigation: NavController, arr : IntArray, starCount : Int)
 {
-    // Init for saving DB for assets.
-    // AppDatabase.instance.scoreDao().deleteAll();
-    // AppDatabase.instance.scoreDao().init()
-
-    // Move data from `shm` and `wal` temporary files to the DB
-    // before saving it for assets.
-    // val cursor = AppDatabase.instance.query("PRAGMA wal_checkpoint", arrayOf())
-    // cursor.moveToFirst()
-
     HEADER_TEXT_SIZE = with(LocalDensity.current) {
         HEADER_TEXT_SIZE_BASE.toSp()
-    }
-
-    val arr = IntArray(Levels.size) {0}
-    var starCount = 0
-    for (score in AppDatabase.instance.scoreDao().getAll())
-    {
-        arr[score.id] = score.stars
-        starCount += score.stars
     }
 
     Box(Modifier.background(Color.Magenta).fillMaxSize())
@@ -71,25 +54,6 @@ fun LevelsScreen(navigation: NavController)
                         fontFamily=FONT_FAMILY,
                     ),
                 )
-
-        // val gameState = getGameState(state, properties)
-        // if (gameState != GAME_STATE.IN_PROGRESS)
-        // {
-        //     Box(Modifier.padding(DEFAULT_MARGIN).clip(RoundedCornerShape(5.dp))
-        //             .background(
-        //                 if (gameState == GAME_STATE.WON) WON_COLOR else LOST_COLOR)
-        //             .fillMaxSize(),
-        //         contentAlignment=Alignment.Center) {
-        //         Row {
-        //             Text(buildMessage(gameState),
-        //                  style=TextStyle(
-        //                      fontSize=MOVES_TEXT_SIZE,
-        //                      fontFamily=FONT_FAMILY,
-        //                  )
-        //             )
-        //         }
-        //     }
-        // }
             }
 
 
@@ -100,7 +64,7 @@ fun LevelsScreen(navigation: NavController)
                     itemsIndexed(Levels) { i, level ->
                         Button(
                             { navigation.navigate("game/$i") },
-                            Modifier.padding(DEFAULT_MARGIN).height(70.dp).width(70.dp),
+                            Modifier.padding(0.dp),//DEFAULT_MARGIN).height(70.dp).width(70.dp),
                             shape=RoundedCornerShape(5),
                             colors=ButtonDefaults.buttonColors(containerColor=Color.Cyan),
                             contentPadding=PaddingValues(0.dp),
@@ -115,10 +79,36 @@ fun LevelsScreen(navigation: NavController)
 }
 
 
+@Composable
+fun LevelsScreen(navigation: NavController)
+{
+    // Init for saving DB for assets.
+    // AppDatabase.instance.scoreDao().deleteAll();
+    // AppDatabase.instance.scoreDao().init()
+
+    // Move data from `shm` and `wal` temporary files to the DB
+    // before saving it for assets.
+    // val cursor = AppDatabase.instance.query("PRAGMA wal_checkpoint", arrayOf())
+    // cursor.moveToFirst()
+
+    val arr = IntArray(Levels.size) {0}
+    var starCount = 0
+    for (score in AppDatabase.instance.scoreDao().getAll())
+    {
+        arr[score.id] = score.stars
+        starCount += score.stars
+    }
+
+    drawLevels(navigation, arr, starCount)
+}
+
+
 @Preview
 @Composable
 fun LevelsPreview()
 {
     val navController = rememberNavController()
-    LevelsScreen(navController)
+
+    val arr = intArrayOf(1, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+    drawLevels(navController, arr, arr.sum())
 }

@@ -112,12 +112,3 @@ fun GreetingScreen(navigation: NavController)
     //     }
     // }
 }
-
-
-@Preview
-@Composable
-fun GreetingPreview()
-{
-    val navController = rememberNavController()
-    GreetingScreen(navController)
-}
