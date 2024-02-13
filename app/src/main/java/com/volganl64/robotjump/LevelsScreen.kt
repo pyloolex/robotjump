@@ -3,8 +3,11 @@ package com.volganl64.robotjump
 import android.util.Log
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -59,18 +62,24 @@ fun drawLevels(navigation: NavController, arr : IntArray, starCount : Int)
 
             Box(Modifier.background(Color.Blue).fillMaxSize()) {
                 LazyVerticalGrid(
-                    GridCells.Fixed(3)
+                    GridCells.Fixed(3),
+                    Modifier.padding(10.dp),
+                    verticalArrangement=Arrangement.spacedBy(10.dp),
+                    horizontalArrangement=Arrangement.spacedBy(10.dp),
                 ) {
                     itemsIndexed(Levels) { i, level ->
                         Button(
                             { navigation.navigate("game/$i") },
-                            Modifier.padding(0.dp),//DEFAULT_MARGIN).height(70.dp).width(70.dp),
+                            Modifier//.padding(10.dp)
+                                .fillMaxHeight().aspectRatio(1f),//.padding(10.dp),
                             shape=RoundedCornerShape(5),
                             colors=ButtonDefaults.buttonColors(containerColor=Color.Cyan),
                             contentPadding=PaddingValues(0.dp),
                         ) {
                             Text("${i + 1} (${arr[i]})")
                         }
+                        // Button({},
+                        //        Modifier.background(Color.Yellow).padding(top=0.dp, bottom=0.dp)) { Text("23")}
                     }
                 }
             }
