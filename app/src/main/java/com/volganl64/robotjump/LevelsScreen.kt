@@ -39,16 +39,27 @@ private var HEADER_TEXT_SIZE = 0.sp // To be overwritten inside Composable.
 
 
 @Composable
-fun drawLevels(navigation: NavController, arr : IntArray, starCount : Int)
+fun drawLevels(navigation: NavController, arr : Array<Int>)
 {
     HEADER_TEXT_SIZE = with(LocalDensity.current) {
         HEADER_TEXT_SIZE_BASE.toSp()
     }
 
-    Box(Modifier.background(Color.Magenta).fillMaxSize())
+    var nextLevel = 0
+    var starCount = 0
+    for (i in arr.indices)
+    {
+        starCount += arr[i]
+        if (arr[i] > 0)
+        {
+            nextLevel = i + 1
+        }
+    }
+
+    Box(Modifier.background(MENU_COLOR).fillMaxSize())
     {
         Column {
-            Box(Modifier.background(Color.Red).fillMaxWidth().height(50.dp),
+            Box(Modifier.fillMaxWidth().height(50.dp),
                 contentAlignment=Alignment.Center) {
                 Text(
                     "Stars collected: ${starCount}/${Levels.size * 3}",
@@ -59,27 +70,41 @@ fun drawLevels(navigation: NavController, arr : IntArray, starCount : Int)
                 )
             }
 
-
-            Box(Modifier.background(Color.Blue).fillMaxSize()) {
+            Box(Modifier.fillMaxSize()) {
                 LazyVerticalGrid(
                     GridCells.Fixed(3),
                     Modifier.padding(10.dp),
                     verticalArrangement=Arrangement.spacedBy(10.dp),
                     horizontalArrangement=Arrangement.spacedBy(10.dp),
                 ) {
-                    itemsIndexed(Levels) { i, level ->
-                        Button(
-                            { navigation.navigate("game/$i") },
-                            Modifier//.padding(10.dp)
-                                .fillMaxHeight().aspectRatio(1f),//.padding(10.dp),
-                            shape=RoundedCornerShape(5),
-                            colors=ButtonDefaults.buttonColors(containerColor=Color.Cyan),
-                            contentPadding=PaddingValues(0.dp),
-                        ) {
-                            Text("${i + 1} (${arr[i]})")
+                    itemsIndexed(arr) { i, score ->
+                        if (i <= nextLevel)
+                        {
+                            Button(
+                                { navigation.navigate("game/$i") },
+                                Modifier//.padding(10.dp)
+                                    .fillMaxHeight().aspectRatio(1f),//.padding(10.dp),
+                                shape=RoundedCornerShape(5),
+                                colors=ButtonDefaults.buttonColors(containerColor=Color.Cyan),
+                                contentPadding=PaddingValues(0.dp),
+                            ) {
+                                Text("${i + 1} (${arr[i]})")
+                            }
                         }
-                        // Button({},
-                        //        Modifier.background(Color.Yellow).padding(top=0.dp, bottom=0.dp)) { Text("23")}
+                        else
+                        {
+                            Button(
+                                { navigation.navigate("game/$i") },
+                                Modifier//.padding(10.dp)
+                                    .fillMaxHeight().aspectRatio(1f),//.padding(10.dp),
+                                shape=RoundedCornerShape(5),
+                                colors=ButtonDefaults.buttonColors(containerColor=Color.Black),
+                                contentPadding=PaddingValues(0.dp),
+                            ) {
+                                Text("${i + 1} (${arr[i]})")
+                            }
+
+                        }
                     }
                 }
             }
@@ -100,15 +125,13 @@ fun LevelsScreen(navigation: NavController)
     // val cursor = AppDatabase.instance.query("PRAGMA wal_checkpoint", arrayOf())
     // cursor.moveToFirst()
 
-    val arr = IntArray(Levels.size) {0}
-    var starCount = 0
+    val arr = Array<Int>(Levels.size) {0}
     for (score in AppDatabase.instance.scoreDao().getAll())
     {
         arr[score.id] = score.stars
-        starCount += score.stars
     }
 
-    drawLevels(navigation, arr, starCount)
+    drawLevels(navigation, arr)
 }
 
 
@@ -118,6 +141,6 @@ fun LevelsPreview()
 {
     val navController = rememberNavController()
 
-    val arr = intArrayOf(1, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-    drawLevels(navController, arr, arr.sum())
+    val arr = arrayOf<Int>(1, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+    drawLevels(navController, arr)
 }
