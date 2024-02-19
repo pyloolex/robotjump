@@ -3,6 +3,7 @@ package com.volganl64.robotjump
 import android.util.Log
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.Box
@@ -27,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -36,6 +38,7 @@ import androidx.navigation.NavController
 
 
 private var HEADER_TEXT_SIZE = 0.sp // To be overwritten inside Composable.
+private val LOCKED_BACKGROUND_COLOR = Color(250, 250, 250, 255)
 
 
 @Composable
@@ -98,10 +101,18 @@ fun drawLevels(navigation: NavController, arr : Array<Int>)
                                 Modifier//.padding(10.dp)
                                     .fillMaxHeight().aspectRatio(1f),//.padding(10.dp),
                                 shape=RoundedCornerShape(5),
-                                colors=ButtonDefaults.buttonColors(containerColor=Color.Black),
+                                colors=ButtonDefaults.buttonColors(
+                                    containerColor=LOCKED_BACKGROUND_COLOR),
                                 contentPadding=PaddingValues(0.dp),
                             ) {
-                                Text("${i + 1} (${arr[i]})")
+                                Box(Modifier.fillMaxSize())
+                                {
+                                    Image(
+                                        painter=painterResource(id=R.drawable.lock),
+                                        contentDescription="locked",
+                                        modifier=Modifier.align(Alignment.Center).fillMaxSize(0.8f),
+                                    )
+                                }
                             }
 
                         }
