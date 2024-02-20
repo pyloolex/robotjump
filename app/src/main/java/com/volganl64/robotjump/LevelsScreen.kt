@@ -102,8 +102,9 @@ fun drawLevels(navigation: NavController, arr : Array<Int>)
                                     .fillMaxHeight().aspectRatio(1f),//.padding(10.dp),
                                 shape=RoundedCornerShape(5),
                                 colors=ButtonDefaults.buttonColors(
-                                    containerColor=LOCKED_BACKGROUND_COLOR),
+                                    disabledContainerColor=LOCKED_BACKGROUND_COLOR),
                                 contentPadding=PaddingValues(0.dp),
+                                enabled=false,
                             ) {
                                 Box(Modifier.fillMaxSize())
                                 {
