@@ -27,7 +27,6 @@ import androidx.navigation.NavController
 
 
 private const val BUTTON_HEIGHT = 0.1f
-private val BUTTON_TEXT_SIZE = 20.sp
 private const val BUTTON_WIDTH = 0.5f
 
 

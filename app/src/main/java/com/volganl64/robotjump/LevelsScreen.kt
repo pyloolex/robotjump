@@ -27,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -37,14 +38,16 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.NavController
 
 
-private var HEADER_TEXT_SIZE = 0.sp // To be overwritten inside Composable.
 private val LOCKED_BACKGROUND_COLOR = Color(250, 250, 250, 255)
 
 
 @Composable
 fun drawLevels(navigation: NavController, arr : Array<Int>)
 {
-    HEADER_TEXT_SIZE = with(LocalDensity.current) {
+    val buttonTextSize = with(LocalDensity.current) {
+        (LocalConfiguration.current.screenWidthDp.dp / 10).toSp()
+    }
+    val headerTextSize = with(LocalDensity.current) {
         HEADER_TEXT_SIZE_BASE.toSp()
     }
 
@@ -67,7 +70,7 @@ fun drawLevels(navigation: NavController, arr : Array<Int>)
                 Text(
                     "Stars collected: ${starCount}/${Levels.size * 3}",
                     style=TextStyle(
-                        fontSize=HEADER_TEXT_SIZE,
+                        fontSize=headerTextSize,
                         fontFamily=FONT_FAMILY,
                     ),
                 )
@@ -91,7 +94,27 @@ fun drawLevels(navigation: NavController, arr : Array<Int>)
                                 colors=ButtonDefaults.buttonColors(containerColor=Color.Cyan),
                                 contentPadding=PaddingValues(0.dp),
                             ) {
-                                Text("${i + 1} (${arr[i]})")
+                                Column {
+                                    Box(
+                                        Modifier.background(MENU_BUTTON_COLOR)
+                                            .weight(1f)
+                                            .fillMaxWidth()
+                                    )
+                                    {
+                                        Text(
+                                            "${i + 1}",
+                                            Modifier.align(Alignment.Center),
+                                            style=TextStyle(
+                                                fontSize=buttonTextSize,
+                                                fontFamily=FONT_FAMILY,
+                                            )
+                                        )
+                                    }
+                                    Box(Modifier.background(Color.Magenta).weight(1f).fillMaxWidth())
+                                    {
+                                        Text("${arr[i]}")
+                                    }
+                                }
                             }
                         }
                         else
