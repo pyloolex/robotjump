@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.itemsIndexed
@@ -91,12 +92,12 @@ fun drawLevels(navigation: NavController, arr : Array<Int>)
                                 Modifier//.padding(10.dp)
                                     .fillMaxHeight().aspectRatio(1f),//.padding(10.dp),
                                 shape=RoundedCornerShape(5),
-                                colors=ButtonDefaults.buttonColors(containerColor=Color.Cyan),
+                                colors=ButtonDefaults.buttonColors(containerColor=MENU_BUTTON_COLOR),
                                 contentPadding=PaddingValues(0.dp),
                             ) {
                                 Column {
                                     Box(
-                                        Modifier.background(MENU_BUTTON_COLOR)
+                                        Modifier
                                             .weight(1f)
                                             .fillMaxWidth()
                                     )
@@ -110,9 +111,22 @@ fun drawLevels(navigation: NavController, arr : Array<Int>)
                                             )
                                         )
                                     }
-                                    Box(Modifier.background(Color.Magenta).weight(1f).fillMaxWidth())
+                                    Box(Modifier.weight(1f).fillMaxWidth())
                                     {
-                                        Text("${arr[i]}")
+                                        Box(Modifier.fillMaxHeight(0.9f).align(Alignment.Center).padding(DEFAULT_MARGIN).background(Color.Magenta)) {
+                                            Row {
+                                                for (i in 0 until score)
+                                                {
+                                                    Box(Modifier.fillMaxHeight().aspectRatio(1f).background(Color.Green)) {
+                                                        Image(
+                                                            painter=painterResource(R.drawable.star),
+                                                            contentDescription="star",
+                                                            modifier=Modifier.align(Alignment.Center).fillMaxHeight().aspectRatio(1f)
+                                                        )
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }
