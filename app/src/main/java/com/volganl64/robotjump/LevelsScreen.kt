@@ -113,11 +113,11 @@ fun drawLevels(navigation: NavController, arr : Array<Int>)
                                     }
                                     Box(Modifier.weight(1f).fillMaxWidth())
                                     {
-                                        Box(Modifier.fillMaxHeight(0.9f).align(Alignment.Center).padding(DEFAULT_MARGIN).background(Color.Magenta)) {
+                                        Box(Modifier.fillMaxHeight(0.6f).align(Alignment.Center)) {
                                             Row {
                                                 for (i in 0 until score)
                                                 {
-                                                    Box(Modifier.fillMaxHeight().aspectRatio(1f).background(Color.Green)) {
+                                                    Box(Modifier.fillMaxHeight().aspectRatio(1f)) {
                                                         Image(
                                                             painter=painterResource(R.drawable.star),
                                                             contentDescription="star",
