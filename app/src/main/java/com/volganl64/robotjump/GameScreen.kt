@@ -38,8 +38,10 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.rememberNavController
 import androidx.navigation.NavController
 
 
@@ -253,6 +255,12 @@ fun RowScope.LeftBar(state: State, properties: LevelProperties,
                          fontSize=MOVES_TEXT_SIZE,
                          fontFamily=FONT_FAMILY,
                      ))
+            }
+            Box(
+                Modifier.padding(start=DEFAULT_MARGIN, end=DEFAULT_MARGIN)
+                    .background(Color.Red).fillMaxWidth().aspectRatio(1f))
+            {
+
             }
             Spacer(Modifier.weight(1f))
             Button(
@@ -480,9 +488,8 @@ fun ColumnScope.Footer(state: State, properties: LevelProperties,
 }
 
 
-//@Preview
 @Composable
-fun GameScreen(navigation: NavController, levelIdx: Int)
+fun DrawGame(levelIdx: Int, bestScore: Int)
 {
     MOVES_TEXT_SIZE = with(LocalDensity.current) {
         16.dp.toSp()
@@ -493,9 +500,8 @@ fun GameScreen(navigation: NavController, levelIdx: Int)
 
     val state = State(rememberSaveable { mutableStateOf(listOf(Triple(0, 0, 1))) })
     val properties = Levels[levelIdx]
-    val bestScore = AppDatabase.instance.scoreDao().get(levelIdx).stars
     //AppDatabase.instance.scoreDao().update(Score(levelIdx, 3))
-    Log.e("jj all", AppDatabase.instance.scoreDao().getAll().contentToString())
+    //Log.e("jj all", AppDatabase.instance.scoreDao().getAll().contentToString())
 
     Box(Modifier.background(MENU_COLOR).fillMaxSize()) {
         Column {
@@ -504,4 +510,22 @@ fun GameScreen(navigation: NavController, levelIdx: Int)
             Footer(state, properties, levelIdx, bestScore)
         }
     }
+}
+
+
+//@Preview
+@Composable
+fun GameScreen(navigation: NavController, levelIdx: Int)
+{
+    val bestScore = AppDatabase.instance.scoreDao().get(levelIdx).stars
+    DrawGame(levelIdx, bestScore)
+}
+
+
+@Preview
+@Composable
+fun GamePreview()
+{
+    val navController = rememberNavController()
+    DrawGame(2, 3)
 }
