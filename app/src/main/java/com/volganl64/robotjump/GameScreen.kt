@@ -258,9 +258,14 @@ fun RowScope.LeftBar(state: State, properties: LevelProperties,
             }
             Box(
                 Modifier.padding(start=DEFAULT_MARGIN, end=DEFAULT_MARGIN)
-                    .background(Color.Red).fillMaxWidth().aspectRatio(1f))
+                    .fillMaxWidth().aspectRatio(1f)
+            )
             {
-
+                Image(
+                    painter=painterResource(R.drawable.robotimage),
+                    contentDescription="robot",
+                    modifier=Modifier.fillMaxSize(),
+                )
             }
             Spacer(Modifier.weight(1f))
             Button(
