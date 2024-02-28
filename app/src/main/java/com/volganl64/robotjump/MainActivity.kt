@@ -19,7 +19,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val navController = rememberNavController()
-            NavHost(navController=navController, startDestination="greeting") //"greeting")
+            NavHost(navController=navController, startDestination="rules") //"greeting")
             {
                 composable("greeting")
                 {
