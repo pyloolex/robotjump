@@ -21,7 +21,9 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -30,6 +32,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -42,9 +46,9 @@ import androidx.navigation.NavController
 @Composable
 fun RulesScreen()
 {
-    Box(Modifier.background(MENU_COLOR).fillMaxSize()) {
+    Box(Modifier.background(MENU_COLOR).padding(DEFAULT_MARGIN).fillMaxSize()) {
         Column {
-            Box(Modifier.fillMaxWidth().background(Color.Magenta))
+            Box(Modifier.fillMaxWidth())
             {
                 LazyVerticalGrid(
                     GridCells.Fixed(3),
@@ -52,11 +56,11 @@ fun RulesScreen()
                     horizontalArrangement=Arrangement.spacedBy(0.dp)
                 ) {
                     item {
-                        Box(Modifier.background(Color.Yellow)
+                        Box(Modifier
                                 .aspectRatio(1f).fillMaxWidth())
                     }
                     item {
-                        Box(Modifier.fillMaxHeight().aspectRatio(1f).background(Color.Red))
+                        Box(Modifier.fillMaxHeight().aspectRatio(1f))
                         {
                             Image(
                                 painter=painterResource(R.drawable.robotimage),
@@ -66,20 +70,44 @@ fun RulesScreen()
                         }
                     }
                     item {
-                        Box(Modifier.background(Color.Yellow)
+                        Box(Modifier
                                 .aspectRatio(1f).fillMaxWidth())
                     }
                 }
             }
-            Box(Modifier.fillMaxWidth())
+            Box(Modifier.fillMaxWidth().verticalScroll(rememberScrollState()))
             {
-                Text(
-                    "Forgive the self-promotion here, but how could we create a list of places to find free books online and not include ourselves? BookBub, via our daily deals email and website, offers new free and discounted titles daily. Pick your favorite genres and receive a curated list of titles in your inbox each day. And for our audiobook fans despairing over the dearth of good bargains, let us point you to our discount audiobook retailer Chirp! Chirp offers limited-time deals on some of the hottest audiobooks, frequently under $4, all without any annoying subscription fees!\n\nForgive the self-promotion here, but how could we create a list of places to find free books online and not include ourselves? BookBub, via our daily deals email and website, offers new free and discounted titles daily. Pick your favorite genres and receive a curated list of titles in your inbox each day. And for our audiobook fans despairing over the dearth of good bargains, let us point you to our discount audiobook retailer Chirp! Chirp offers limited-time deals on some of the hottest audiobooks, frequently under $4, all without any annoying subscription fees!\n\nForgive the self-promotion here, but how could we create a list of places to find free books online and not include ourselves? BookBub, via our daily deals email and website, offers new free and discounted titles daily. Pick your favorite genres and receive a curated list of titles in your inbox each day. And for our audiobook fans despairing over the dearth of good bargains, let us point you to our discount audiobook retailer Chirp! Chirp offers limited-time deals on some of the hottest audiobooks, frequently under $4, all without any annoying subscription fees!\n\nForgive the self-promotion here, but how could we create a list of places to find free books online and not include ourselves? BookBub, via our daily deals email and website, offers new free and discounted titles daily. Pick your favorite genres and receive a curated list of titles in your inbox each day. And for our audiobook fans despairing over the dearth of good bargains, let us point you to our discount audiobook retailer Chirp! Chirp offers limited-time deals on some of the hottest audiobooks, frequently under $4, all without any annoying subscription fees!\n\nForgive the self-promotion here, but how could we create a list of places to find free books online and not include ourselves? BookBub, via our daily deals email and website, offers new free and discounted titles daily. Pick your favorite genres and receive a curated list of titles in your inbox each day. And for our audiobook fans despairing over the dearth of good bargains, let us point you to our discount audiobook retailer Chirp! Chirp offers limited-time deals on some of the hottest audiobooks, frequently under $4, all without any annoying subscription fees!\n\nForgive the self-promotion here, but how could we create a list of places to find free books online and not include ourselves? BookBub, via our daily deals email and website, offers new free and discounted titles daily. Pick your favorite genres and receive a curated list of titles in your inbox each day. And for our audiobook fans despairing over the dearth of good bargains, let us point you to our discount audiobook retailer Chirp! Chirp offers limited-time deals on some of the hottest audiobooks, frequently under $4, all without any annoying subscription fees!\n\nForgive the self-promotion here, but how could we create a list of places to find free books online and not include ourselves? BookBub, via our daily deals email and website, offers new free and discounted titles daily. Pick your favorite genres and receive a curated list of titles in your inbox each day. And for our audiobook fans despairing over the dearth of good bargains, let us point you to our discount audiobook retailer Chirp! Chirp offers limited-time deals on some of the hottest audiobooks, frequently under $4, all without any annoying subscription fees!\n\n",
-                    style=TextStyle(
-                        fontFamily=FONT_FAMILY,
-                        fontSize=17.sp,
-                    ),
-                )
+                Column(Modifier.fillMaxWidth()) {
+                    Text(
+                        "Attention! Use your device's \"Back\" button to navigate between screens within this app.",
+                        Modifier.padding(top=DEFAULT_MARGIN,
+                                         bottom=DEFAULT_MARGIN * 2),
+                        style=TextStyle(
+                            fontFamily=FONT_FAMILY,
+                            fontSize=17.sp,
+                        ),
+                        fontWeight=FontWeight.Bold,
+                    )
+
+                    Text(
+                        "RULES",
+                        Modifier.fillMaxWidth(),
+                        style=TextStyle(
+                            fontFamily=FONT_FAMILY,
+                            fontSize=17.sp,
+                        ),
+                        textAlign=TextAlign.Center,
+                        fontWeight=FontWeight.Bold,
+                    )
+
+                    Text(
+                        "TODO",
+                        style=TextStyle(
+                            fontFamily=FONT_FAMILY,
+                            fontSize=17.sp,
+                        ),
+                    )
+                }
             }
         }
     }
