@@ -46,21 +46,21 @@ import androidx.navigation.NavController
 @Composable
 fun RulesScreen()
 {
-    Box(Modifier.background(MENU_COLOR).padding(DEFAULT_MARGIN).fillMaxSize()) {
+    Box(Modifier.background(MENU_COLOR).padding(DEFAULT_MARGIN).fillMaxSize().verticalScroll(rememberScrollState())) {
         Column {
             Box(Modifier.fillMaxWidth())
             {
-                LazyVerticalGrid(
-                    GridCells.Fixed(3),
+                Row(
                     Modifier,//.padding(10.dp),
-                    horizontalArrangement=Arrangement.spacedBy(0.dp)
+                    //GridCells.Fixed(3),
+                    //horizontalArrangement=Arrangement.spacedBy(0.dp)
                 ) {
-                    item {
+                    //item {
                         Box(Modifier
-                                .aspectRatio(1f).fillMaxWidth())
-                    }
-                    item {
-                        Box(Modifier.fillMaxHeight().aspectRatio(1f))
+                                .aspectRatio(1f).fillMaxWidth().weight(1f))
+                //}
+                  //  item {
+                        Box(Modifier.fillMaxWidth().aspectRatio(1f).weight(1f))
                         {
                             Image(
                                 painter=painterResource(R.drawable.robotimage),
@@ -68,14 +68,14 @@ fun RulesScreen()
                                 modifier=Modifier.align(Alignment.Center),
                             )
                         }
-                    }
-                    item {
+                //}
+                  //  item {
                         Box(Modifier
-                                .aspectRatio(1f).fillMaxWidth())
-                    }
+                                .aspectRatio(1f).fillMaxWidth().weight(1f))
+                //}
                 }
             }
-            Box(Modifier.fillMaxWidth().verticalScroll(rememberScrollState()))
+            Box(Modifier.fillMaxWidth())
             {
                 Column(Modifier.fillMaxWidth()) {
                     Text(
@@ -101,12 +101,21 @@ fun RulesScreen()
                     )
 
                     Text(
-                        "TODO",
+                        "You are given a coordinate plane and a robot standing at the point (0; 0)",
                         style=TextStyle(
                             fontFamily=FONT_FAMILY,
                             fontSize=17.sp,
                         ),
                     )
+
+                    Box(Modifier.fillMaxWidth())
+                    {
+                        Image(
+                            painter=painterResource(R.drawable.first_example),
+                            contentDescription="firstExample",
+                            modifier=Modifier.align(Alignment.Center).fillMaxWidth(0.8f),
+                        )
+                    }
                 }
             }
         }
