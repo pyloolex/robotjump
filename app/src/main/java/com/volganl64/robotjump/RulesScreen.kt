@@ -32,7 +32,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -101,7 +103,50 @@ fun RulesScreen()
                     )
 
                     Text(
-                        "You are given a coordinate plane and a robot standing at the point (0; 0)",
+                        "You are given a coordinate plane and a robot " +
+                            "standing at the point (0; 0). You aim to " +
+                            "help the robot reach its final destination " +
+                            "(x; y) in the least possible number of moves.",
+                        style=TextStyle(
+                            fontFamily=FONT_FAMILY,
+                            fontSize=17.sp,
+                        ),
+                    )
+
+                    Text(
+                        "There are three types of moves:",
+                        Modifier.padding(top=DEFAULT_MARGIN),
+                        style=TextStyle(
+                            fontFamily=FONT_FAMILY,
+                            fontSize=17.sp,
+                        ),
+                    )
+
+                    val annotatedString = buildAnnotatedString {
+                        val str = StringBuilder()
+                        str.append("1) Jump ")
+                        val firstKpos = str.length
+                        str.append("k cells right. The robot's position " +
+                            "changes by increasing the value on " +
+                            "the X axis: (x+")
+                        val secondKpos = str.length
+                        str.append("k; y).")
+                        append(str.toString())
+
+                        addStyle(
+                            style=SpanStyle(fontWeight=FontWeight.Bold),
+                            start=firstKpos,
+                            end=firstKpos+1,
+                        )
+                        addStyle(
+                            style=SpanStyle(fontWeight=FontWeight.Bold),
+                            start=secondKpos,
+                            end=secondKpos+1,
+                        )
+                    }
+                    Text(
+                        annotatedString,
+                        Modifier.padding(start=DEFAULT_MARGIN),
                         style=TextStyle(
                             fontFamily=FONT_FAMILY,
                             fontSize=17.sp,
