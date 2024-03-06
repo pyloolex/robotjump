@@ -44,6 +44,9 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.NavController
 
 
+private val TEXT_SIZE = 18.sp
+
+
 @Preview
 @Composable
 fun RulesScreen()
@@ -86,7 +89,7 @@ fun RulesScreen()
                                          bottom=DEFAULT_MARGIN * 2),
                         style=TextStyle(
                             fontFamily=FONT_FAMILY,
-                            fontSize=17.sp,
+                            fontSize=TEXT_SIZE,
                         ),
                         fontWeight=FontWeight.Bold,
                     )
@@ -96,7 +99,7 @@ fun RulesScreen()
                         Modifier.fillMaxWidth(),
                         style=TextStyle(
                             fontFamily=FONT_FAMILY,
-                            fontSize=17.sp,
+                            fontSize=TEXT_SIZE,
                         ),
                         textAlign=TextAlign.Center,
                         fontWeight=FontWeight.Bold,
@@ -109,7 +112,7 @@ fun RulesScreen()
                             "(x; y) in the least possible number of moves.",
                         style=TextStyle(
                             fontFamily=FONT_FAMILY,
-                            fontSize=17.sp,
+                            fontSize=TEXT_SIZE,
                         ),
                     )
 
@@ -118,11 +121,11 @@ fun RulesScreen()
                         Modifier.padding(top=DEFAULT_MARGIN),
                         style=TextStyle(
                             fontFamily=FONT_FAMILY,
-                            fontSize=17.sp,
+                            fontSize=TEXT_SIZE,
                         ),
                     )
 
-                    val annotatedString = buildAnnotatedString {
+                    var annotatedString = buildAnnotatedString {
                         val str = StringBuilder()
                         str.append("1) Jump ")
                         val firstKpos = str.length
@@ -149,11 +152,107 @@ fun RulesScreen()
                         Modifier.padding(start=DEFAULT_MARGIN),
                         style=TextStyle(
                             fontFamily=FONT_FAMILY,
-                            fontSize=17.sp,
+                            fontSize=TEXT_SIZE,
                         ),
                     )
 
-                    Box(Modifier.fillMaxWidth())
+                    annotatedString = buildAnnotatedString {
+                        val str = StringBuilder()
+                        str.append("2) Jump ")
+                        val firstKpos = str.length
+                        str.append("k cells up. The robot's position " +
+                            "changes by increasing the value on " +
+                            "the Y axis: (x; y+")
+                        val secondKpos = str.length
+                        str.append("k).")
+                        append(str.toString())
+
+                        addStyle(
+                            style=SpanStyle(fontWeight=FontWeight.Bold),
+                            start=firstKpos,
+                            end=firstKpos+1,
+                        )
+                        addStyle(
+                            style=SpanStyle(fontWeight=FontWeight.Bold),
+                            start=secondKpos,
+                            end=secondKpos+1,
+                        )
+                    }
+                    Text(
+                        annotatedString,
+                        Modifier.padding(start=DEFAULT_MARGIN),
+                        style=TextStyle(
+                            fontFamily=FONT_FAMILY,
+                            fontSize=TEXT_SIZE,
+                        ),
+                    )
+
+                    annotatedString = buildAnnotatedString {
+                        val str = StringBuilder()
+                        str.append(
+                            "3) Increase the length of the jump. " +
+                                "In other words, increase the "
+                        )
+                        val firstKpos = str.length
+                        str.append("k by 1.")
+                        append(str.toString())
+
+                        addStyle(
+                            style=SpanStyle(fontWeight=FontWeight.Bold),
+                            start=firstKpos,
+                            end=firstKpos+1,
+                        )
+                    }
+                    Text(
+                        annotatedString,
+                        Modifier.padding(start=DEFAULT_MARGIN),
+                        style=TextStyle(
+                            fontFamily=FONT_FAMILY,
+                            fontSize=TEXT_SIZE,
+                        ),
+                    )
+
+                    Text(
+                        "The initial length of the jump (k) is 1.",
+                        Modifier.padding(top=DEFAULT_MARGIN),
+                        style=TextStyle(
+                            fontFamily=FONT_FAMILY,
+                            fontSize=TEXT_SIZE,
+                        ),
+                    )
+
+                    Text(
+                        "Let's consider an example. Let the destination " +
+                            "point be (3; 5).",
+                        Modifier.padding(top=DEFAULT_MARGIN),
+                        style=TextStyle(
+                            fontFamily=FONT_FAMILY,
+                            fontSize=TEXT_SIZE,
+                        ),
+                    )
+
+                    Text(
+                        "The solution might be the following:\n" +
+                            "1) Jump 1 cell up. " +
+                            "Robot's coordinates: (0; 1).\n" +
+                            "2) Jump 1 cell right. " +
+                            "Robot's coordinates: (1; 1).\n" +
+                            "3) Increase the length of the jump " +
+                            " by one. Now the length of the jump is 2.\n" +
+                            "4) Jump 2 cells right. " +
+                            "Robot's coordinates: (3; 1).\n" +
+                            "5) Jump 2 cells up. " +
+                            "Robot's coordinates: (3; 3).\n" +
+                            "6) Jump 2 cells up. " +
+                            "Robot's coordinates: (3; 5).",
+                        Modifier.padding(top=DEFAULT_MARGIN),
+                        style=TextStyle(
+                            fontFamily=FONT_FAMILY,
+                            fontSize=TEXT_SIZE,
+                        ),
+                    )
+
+                    Box(Modifier.fillMaxWidth().padding(top=DEFAULT_MARGIN))
                     {
                         Image(
                             painter=painterResource(R.drawable.first_example),
@@ -161,6 +260,59 @@ fun RulesScreen()
                             modifier=Modifier.align(Alignment.Center).fillMaxWidth(0.8f),
                         )
                     }
+
+                    Text(
+                        "Therefore, the robot has reached its " +
+                            "destination in 6 moves. But is it " +
+                            "the best solution? Or is it " +
+                            "possible to reach it in fewer moves?",
+                        Modifier.padding(top=DEFAULT_MARGIN),
+                        style=TextStyle(
+                            fontFamily=FONT_FAMILY,
+                            fontSize=TEXT_SIZE,
+                        ),
+                    )
+
+                    Text(
+                        "Yeah, it's possible! The best solution " +
+                            "includes only 5 moves and looks like this:\n" +
+                            "1) Increase the length of the jump by one. " +
+                            "Now the length of the jump is 2.\n" +
+                            "2) Jump 2 cells up. " +
+                            "Robot's coordinates: (0; 2).\n" +
+                            "3) Increase the length of the " +
+                            "jump by one. Now the length of " +
+                            "the jump is 3.\n" +
+                            "4) Jump 3 cells right. " +
+                            "Robot's coordinates: (3; 2).\n" +
+                            "5) Jump 3 cells up. " +
+                            "Robot's coordinates: (3; 5).",
+                        Modifier.padding(top=DEFAULT_MARGIN),
+                        style=TextStyle(
+                            fontFamily=FONT_FAMILY,
+                            fontSize=TEXT_SIZE,
+                        ),
+                    )
+
+                    Box(Modifier.fillMaxWidth().padding(top=DEFAULT_MARGIN))
+                    {
+                        Image(
+                            painter=painterResource(R.drawable.second_example),
+                            contentDescription="secondExample",
+                            modifier=Modifier.align(Alignment.Center).fillMaxWidth(0.8f),
+                        )
+                    }
+
+                    Text(
+                        "Go ahead and pass all the levels with the " +
+                            "least number of moves! Good luck!",
+                        Modifier.padding(top=DEFAULT_MARGIN),
+                        style=TextStyle(
+                            fontFamily=FONT_FAMILY,
+                            fontSize=TEXT_SIZE,
+                        ),
+                    )
+
                 }
             }
         }
