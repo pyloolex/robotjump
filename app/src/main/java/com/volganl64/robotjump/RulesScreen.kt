@@ -233,17 +233,17 @@ fun RulesScreen()
 
                     Text(
                         "The solution might be the following:\n" +
-                            "1) Jump 1 cell up. " +
+                            "  - [1] Jump 1 cell up.\n" +
                             "Robot's coordinates: (0; 1).\n" +
-                            "2) Jump 1 cell right. " +
+                            "  - [2] Jump 1 cell right.\n" +
                             "Robot's coordinates: (1; 1).\n" +
-                            "3) Increase the length of the jump " +
-                            " by one. Now the length of the jump is 2.\n" +
-                            "4) Jump 2 cells right. " +
+                            "  - [3] Increase the length of the jump " +
+                            " by one.\nNow the length of the jump is 2.\n" +
+                            "  - [4] Jump 2 cells right.\n" +
                             "Robot's coordinates: (3; 1).\n" +
-                            "5) Jump 2 cells up. " +
+                            "  - [5] Jump 2 cells up.\n" +
                             "Robot's coordinates: (3; 3).\n" +
-                            "6) Jump 2 cells up. " +
+                            "  - [6] Jump 2 cells up.\n" +
                             "Robot's coordinates: (3; 5).",
                         Modifier.padding(top=DEFAULT_MARGIN),
                         style=TextStyle(
@@ -276,16 +276,16 @@ fun RulesScreen()
                     Text(
                         "Yeah, it's possible! The best solution " +
                             "includes only 5 moves and looks like this:\n" +
-                            "1) Increase the length of the jump by one. " +
+                            "  - [1] Increase the length of the jump by one.\n" +
                             "Now the length of the jump is 2.\n" +
-                            "2) Jump 2 cells up. " +
+                            "  - [2] Jump 2 cells up.\n" +
                             "Robot's coordinates: (0; 2).\n" +
-                            "3) Increase the length of the " +
-                            "jump by one. Now the length of " +
+                            "  - [3] Increase the length of the " +
+                            "jump by one.\nNow the length of " +
                             "the jump is 3.\n" +
-                            "4) Jump 3 cells right. " +
+                            "  - [4] Jump 3 cells right.\n" +
                             "Robot's coordinates: (3; 2).\n" +
-                            "5) Jump 3 cells up. " +
+                            "  - [5] Jump 3 cells up.\n" +
                             "Robot's coordinates: (3; 5).",
                         Modifier.padding(top=DEFAULT_MARGIN),
                         style=TextStyle(

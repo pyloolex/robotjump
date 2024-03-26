@@ -307,7 +307,7 @@ fun RowScope.Screen(state: State, properties: LevelProperties)
 {
     val textSize = with(LocalDensity.current) {
         ((LocalConfiguration.current.screenWidthDp.dp - MENU_WIDTH) /
-             15).toSp()
+             17).toSp()
     }
 
     Box(Modifier
@@ -518,7 +518,6 @@ fun DrawGame(levelIdx: Int, bestScore: Int)
 }
 
 
-//@Preview
 @Composable
 fun GameScreen(navigation: NavController, levelIdx: Int)
 {
