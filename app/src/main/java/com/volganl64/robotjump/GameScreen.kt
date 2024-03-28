@@ -40,11 +40,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.NavController
 
 
+private var HEADER_HEIGHT = 50.dp
 private var HEADER_TEXT_SIZE = 0.sp // To be overwritten inside Composable.
 private val MENU_WIDTH = 80.dp
 private val STAR_SIZE = 20.dp
@@ -181,7 +183,7 @@ fun ColumnScope.Header(state: State, properties: LevelProperties)
         return "You lost: $reason."
     }
 
-    Box(Modifier.fillMaxWidth().height(50.dp)) {
+    Box(Modifier.fillMaxWidth().height(HEADER_HEIGHT)) {
         val gameState = getGameState(state, properties)
         if (gameState != GAME_STATE.IN_PROGRESS)
         {
@@ -306,9 +308,15 @@ fun RowScope.LeftBar(state: State, properties: LevelProperties,
 fun RowScope.Screen(state: State, properties: LevelProperties)
 {
     val textSize = with(LocalDensity.current) {
-        ((LocalConfiguration.current.screenWidthDp.dp - MENU_WIDTH) /
-             17).toSp()
+        min(
+            (LocalConfiguration.current.screenWidthDp.dp - MENU_WIDTH) / 12,
+            (LocalConfiguration.current.screenHeightDp.dp - MENU_WIDTH -
+                 HEADER_HEIGHT) / 10,
+        ).toSp()
     }
+
+    Log.e("jj", ((LocalConfiguration.current.screenWidthDp.dp - MENU_WIDTH) / 12).toString() + ":::::" + ((LocalConfiguration.current.screenHeightDp.dp - MENU_WIDTH -
+                 HEADER_HEIGHT) / 10).toString())
 
     Box(Modifier
             .padding(PaddingValues(end=8.dp))
