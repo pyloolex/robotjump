@@ -1,7 +1,5 @@
 package com.volganl64.robotjump
 
-import android.util.Log
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -15,8 +13,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -34,7 +30,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.NavController
 
@@ -67,7 +62,8 @@ fun drawLevels(navigation: NavController, arr : Array<Int>)
     {
         Column {
             Box(Modifier.fillMaxWidth().height(50.dp),
-                contentAlignment=Alignment.Center) {
+                contentAlignment=Alignment.Center)
+            {
                 Text(
                     "Stars collected: ${starCount}/${Levels.size * 3}",
                     style=TextStyle(
@@ -77,24 +73,27 @@ fun drawLevels(navigation: NavController, arr : Array<Int>)
                 )
             }
 
-            Box(Modifier.fillMaxSize()) {
+            Box(Modifier.fillMaxSize())
+            {
                 LazyVerticalGrid(
                     GridCells.Fixed(3),
                     Modifier.padding(10.dp),
                     verticalArrangement=Arrangement.spacedBy(10.dp),
                     horizontalArrangement=Arrangement.spacedBy(10.dp),
-                ) {
+                )
+                {
                     itemsIndexed(arr) { i, score ->
                         if (i <= nextLevel)
                         {
                             Button(
                                 { navigation.navigate("game/$i") },
-                                Modifier//.padding(10.dp)
-                                    .fillMaxHeight().aspectRatio(1f),//.padding(10.dp),
+                                Modifier.fillMaxHeight().aspectRatio(1f),
                                 shape=RoundedCornerShape(5),
-                                colors=ButtonDefaults.buttonColors(containerColor=MENU_BUTTON_COLOR),
+                                colors=ButtonDefaults.buttonColors(
+                                    containerColor=MENU_BUTTON_COLOR),
                                 contentPadding=PaddingValues(0.dp),
-                            ) {
+                            )
+                            {
                                 Column {
                                     Box(
                                         Modifier
@@ -113,15 +112,23 @@ fun drawLevels(navigation: NavController, arr : Array<Int>)
                                     }
                                     Box(Modifier.weight(1f).fillMaxWidth())
                                     {
-                                        Box(Modifier.fillMaxHeight(0.6f).align(Alignment.Center)) {
+                                        Box(Modifier.fillMaxHeight(0.6f).align(
+                                                Alignment.Center))
+                                        {
                                             Row {
                                                 for (i in 0 until score)
                                                 {
-                                                    Box(Modifier.fillMaxHeight().aspectRatio(1f)) {
+                                                    Box(Modifier.fillMaxHeight()
+                                                            .aspectRatio(1f))
+                                                    {
                                                         Image(
-                                                            painter=painterResource(R.drawable.star),
+                                                            painter=painterResource(
+                                                                R.drawable.star),
                                                             contentDescription="star",
-                                                            modifier=Modifier.align(Alignment.Center).fillMaxHeight().aspectRatio(1f)
+                                                            modifier=Modifier.align(
+                                                                Alignment.Center)
+                                                                .fillMaxHeight()
+                                                                .aspectRatio(1f)
                                                         )
                                                     }
                                                 }
@@ -135,20 +142,22 @@ fun drawLevels(navigation: NavController, arr : Array<Int>)
                         {
                             Button(
                                 { navigation.navigate("game/$i") },
-                                Modifier//.padding(10.dp)
-                                    .fillMaxHeight().aspectRatio(1f),//.padding(10.dp),
+                                Modifier.fillMaxHeight().aspectRatio(1f),
                                 shape=RoundedCornerShape(5),
                                 colors=ButtonDefaults.buttonColors(
                                     disabledContainerColor=LOCKED_BACKGROUND_COLOR),
                                 contentPadding=PaddingValues(0.dp),
                                 enabled=false,
-                            ) {
+                            )
+                            {
                                 Box(Modifier.fillMaxSize())
                                 {
                                     Image(
-                                        painter=painterResource(id=R.drawable.lock),
+                                        painter=painterResource(
+                                            id=R.drawable.lock),
                                         contentDescription="locked",
-                                        modifier=Modifier.align(Alignment.Center).fillMaxSize(0.8f),
+                                        modifier=Modifier.align(Alignment.Center)
+                                            .fillMaxSize(0.8f),
                                     )
                                 }
                             }

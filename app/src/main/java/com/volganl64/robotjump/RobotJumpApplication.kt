@@ -1,7 +1,6 @@
 package com.volganl64.robotjump
 
 import android.app.Application
-import androidx.room.Room
 
 
 class RobotJumpApplication : Application()

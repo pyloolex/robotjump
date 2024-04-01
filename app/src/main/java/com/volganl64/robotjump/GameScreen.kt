@@ -42,15 +42,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.sp
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.NavController
 
 
 private var HEADER_HEIGHT = 50.dp
 private var HEADER_TEXT_SIZE = 0.sp // To be overwritten inside Composable.
 private val MENU_WIDTH = 80.dp
-private val STAR_SIZE = 20.dp
 private var MOVES_TEXT_SIZE = 0.sp // To be overwritten inside Composable.
+private val STAR_SIZE = 20.dp
+
 private var BUTTON_COLOR = Color(200, 200, 200, 255)
 private var SCREEN_COLOR = Color(230, 230, 230, 255)
 private var LOST_COLOR = Color(255, 179, 179, 255)
@@ -189,9 +189,11 @@ fun ColumnScope.Header(state: State, properties: LevelProperties)
         {
             Box(Modifier.padding(DEFAULT_MARGIN).clip(RoundedCornerShape(5.dp))
                     .background(
-                        if (gameState == GAME_STATE.WON) WON_COLOR else LOST_COLOR)
+                        if (gameState == GAME_STATE.WON) WON_COLOR
+                        else LOST_COLOR)
                     .fillMaxSize(),
-                contentAlignment=Alignment.Center) {
+                contentAlignment=Alignment.Center)
+            {
                 Row {
                     Text(buildMessage(gameState),
                          style=TextStyle(
@@ -220,37 +222,31 @@ fun RowScope.LeftBar(state: State, properties: LevelProperties,
     }
 
     Box(Modifier.fillMaxHeight()
-            .width(MENU_WIDTH)) {
+            .width(MENU_WIDTH))
+    {
         Column {
             Box(Modifier.padding(DEFAULT_MARGIN)
-                    .fillMaxWidth().height(30.dp)) {
-                Row(Modifier.align(Alignment.Center)) {
+                    .fillMaxWidth().height(30.dp))
+            {
+                Row(Modifier.align(Alignment.Center))
+                {
                     for (i in 0 until starNumber)
                     {
-                        Box(Modifier.fillMaxHeight()) {
+                        Box(Modifier.fillMaxHeight())
+                        {
                             Image(painter=painterResource(id=R.drawable.star),
                                   contentDescription="star",
-                                  modifier=Modifier.align(Alignment.Center).size(STAR_SIZE),
+                                  modifier=Modifier.align(
+                                      Alignment.Center).size(STAR_SIZE),
                             )
                         }
                     }
-                    // Box(Modifier.fillMaxHeight()) {
-                    //     Image(painter=painterResource(id=R.drawable.star),
-                    //           contentDescription="star",
-                    //           modifier=Modifier.align(Alignment.Center).size(STAR_SIZE),
-                    //     )
-                    // }
-                    // Box(Modifier.fillMaxHeight()) {
-                    //     Image(painter=painterResource(id=R.drawable.star),
-                    //           contentDescription="star",
-                    //           modifier=Modifier.align(Alignment.Center).size(STAR_SIZE),
-                    //     )
-                    // }
                 }
             }
             Box(Modifier.padding(start=DEFAULT_MARGIN, end=DEFAULT_MARGIN)
 
-                    .fillMaxWidth().height(30.dp)) {
+                    .fillMaxWidth().height(30.dp))
+            {
                 Text(drawRemainingMoves(),
                      modifier=Modifier.align(Alignment.Center),
                      style=TextStyle(
@@ -278,15 +274,19 @@ fun RowScope.LeftBar(state: State, properties: LevelProperties,
                 colors=ButtonDefaults.buttonColors(containerColor=BUTTON_COLOR),
                 contentPadding=PaddingValues(0.dp),
                 enabled=getGameState(state, properties) == GAME_STATE.IN_PROGRESS,
-            ) {
+            )
+            {
                 Column {
-                    Box(Modifier.fillMaxWidth()) {
+                    Box(Modifier.fillMaxWidth())
+                    {
                         Image(painter=painterResource(id=R.drawable.up),
                               contentDescription="up",
-                              modifier=Modifier.align(Alignment.Center).size(15.dp),
+                              modifier=Modifier.align(Alignment.Center).size(
+                                  15.dp),
                         )
                     }
-                    Box(Modifier.fillMaxWidth()) {
+                    Box(Modifier.fillMaxWidth())
+                    {
                         Text(
                             "${state.moves.value.last().third}",
                             Modifier.align(Alignment.Center),
@@ -307,7 +307,8 @@ fun RowScope.LeftBar(state: State, properties: LevelProperties,
 @Composable
 fun RowScope.Screen(state: State, properties: LevelProperties)
 {
-    val textSize = with(LocalDensity.current) {
+    val textSize = with(LocalDensity.current)
+    {
         min(
             (LocalConfiguration.current.screenWidthDp.dp - MENU_WIDTH) / 12,
             (LocalConfiguration.current.screenHeightDp.dp - MENU_WIDTH -
@@ -315,24 +316,28 @@ fun RowScope.Screen(state: State, properties: LevelProperties)
         ).toSp()
     }
 
-    Log.e("jj", ((LocalConfiguration.current.screenWidthDp.dp - MENU_WIDTH) / 12).toString() + ":::::" + ((LocalConfiguration.current.screenHeightDp.dp - MENU_WIDTH -
-                 HEADER_HEIGHT) / 10).toString())
-
     Box(Modifier
             .padding(PaddingValues(end=8.dp))
-            .border(width=0.8.dp, color=Color.Black, shape=RoundedCornerShape(5.dp))
+            .border(
+                width=0.8.dp,
+                color=Color.Black,
+                shape=RoundedCornerShape(5.dp)
+            )
             .clip(RoundedCornerShape(5.dp))
             .background(SCREEN_COLOR)
             .fillMaxHeight()
-            .weight(1f)) {
+            .weight(1f))
+    {
         Column {
-            Row(Modifier.fillMaxSize().weight(1f)) {
-                Box(Modifier
-                        .fillMaxSize().weight(1f))
-                Box(Modifier
-                        .fillMaxSize().weight(1f)) {
-                    Column(Modifier.align(Alignment.Center)) {
-                        Box(Modifier.fillMaxWidth()) {
+            Row(Modifier.fillMaxSize().weight(1f))
+            {
+                Box(Modifier.fillMaxSize().weight(1f))
+                Box(Modifier.fillMaxSize().weight(1f))
+                {
+                    Column(Modifier.align(Alignment.Center))
+                    {
+                        Box(Modifier.fillMaxWidth())
+                        {
                             Text("Target",
                                  modifier=Modifier.align(Alignment.Center),
                                  style=TextStyle(
@@ -341,8 +346,10 @@ fun RowScope.Screen(state: State, properties: LevelProperties)
                                  ),
                             )
                         }
-                        Box(Modifier.fillMaxWidth()) {
-                            Text("(x=${properties.target.first}; y=${properties.target.second})",
+                        Box(Modifier.fillMaxWidth())
+                        {
+                            Text("(x=${properties.target.first}; " +
+                                     "y=${properties.target.second})",
                                  modifier=Modifier.align(Alignment.Center),
                                  style=TextStyle(
                                      fontSize=textSize,
@@ -353,11 +360,15 @@ fun RowScope.Screen(state: State, properties: LevelProperties)
                     }
                 }
             }
-            Row(Modifier.weight(1f)) {
+            Row(Modifier.weight(1f))
+            {
                 Box(Modifier
-                        .fillMaxSize().weight(1f)) {
-                    Column(Modifier.align(Alignment.Center)) {
-                        Box(Modifier.fillMaxWidth()) {
+                        .fillMaxSize().weight(1f))
+                {
+                    Column(Modifier.align(Alignment.Center))
+                    {
+                        Box(Modifier.fillMaxWidth())
+                        {
                             Text("Position",
                                  modifier=Modifier.align(Alignment.Center),
                                  style=TextStyle(
@@ -366,8 +377,10 @@ fun RowScope.Screen(state: State, properties: LevelProperties)
                                  ),
                             )
                         }
-                        Box(Modifier.fillMaxWidth()) {
-                            Text("(x=${state.moves.value.last().first}; y=${state.moves.value.last().second})",
+                        Box(Modifier.fillMaxWidth())
+                        {
+                            Text("(x=${state.moves.value.last().first}; " +
+                                     "y=${state.moves.value.last().second})",
                                  modifier=Modifier.align(Alignment.Center),
                                  style=TextStyle(
                                      fontSize=textSize,
@@ -377,8 +390,7 @@ fun RowScope.Screen(state: State, properties: LevelProperties)
                         }
                     }
                 }
-                Box(Modifier
-                        .fillMaxSize().weight(1f))
+                Box(Modifier.fillMaxSize().weight(1f))
             }
         }
     }
@@ -389,8 +401,8 @@ fun RowScope.Screen(state: State, properties: LevelProperties)
 fun ColumnScope.Body(state: State, properties: LevelProperties,
                      levelIdx: Int, bestScore: Int)
 {
-    Box(Modifier.weight(1f)
-            .fillMaxWidth()) {
+    Box(Modifier.weight(1f).fillMaxWidth())
+    {
         Row {
             LeftBar(state, properties, levelIdx, bestScore)
             Screen(state, properties)
@@ -403,8 +415,8 @@ fun ColumnScope.Body(state: State, properties: LevelProperties,
 fun ColumnScope.Footer(state: State, properties: LevelProperties,
                        levelIdx: Int, bestScore: Int)
 {
-    Box(Modifier.height(MENU_WIDTH)
-            .fillMaxWidth()) {
+    Box(Modifier.height(MENU_WIDTH).fillMaxWidth())
+    {
         Row {
             Button(
                 { increaseJump(state) },
@@ -414,15 +426,19 @@ fun ColumnScope.Footer(state: State, properties: LevelProperties,
                 colors=ButtonDefaults.buttonColors(containerColor=BUTTON_COLOR),
                 contentPadding=PaddingValues(0.dp),
                 enabled=getGameState(state, properties) == GAME_STATE.IN_PROGRESS,
-            ) {
+            )
+            {
                 Row {
-                    Box(Modifier.fillMaxHeight()) {
+                    Box(Modifier.fillMaxHeight())
+                    {
                         Image(painter=painterResource(id=R.drawable.upgrade),
                               contentDescription="upgrade",
-                              modifier=Modifier.align(Alignment.Center).size(17.dp),
+                              modifier=Modifier.align(Alignment.Center).size(
+                                  17.dp),
                         )
                     }
-                    Box(Modifier.fillMaxHeight()) {
+                    Box(Modifier.fillMaxHeight())
+                    {
                         Text(
                             "+1",
                             Modifier.align(Alignment.Center),
@@ -443,9 +459,11 @@ fun ColumnScope.Footer(state: State, properties: LevelProperties,
                 colors=ButtonDefaults.buttonColors(containerColor=BUTTON_COLOR),
                 contentPadding=PaddingValues(0.dp),
                 enabled=getGameState(state, properties) == GAME_STATE.IN_PROGRESS,
-            ) {
+            )
+            {
                 Row {
-                    Box(Modifier.fillMaxHeight()) {
+                    Box(Modifier.fillMaxHeight())
+                    {
                         Text(
                             "${state.moves.value.last().third}",
                             Modifier.align(Alignment.Center),
@@ -460,7 +478,8 @@ fun ColumnScope.Footer(state: State, properties: LevelProperties,
                     Box(Modifier.fillMaxHeight()) {
                         Image(painter=painterResource(id=R.drawable.right),
                               contentDescription="upgrade",
-                              modifier=Modifier.align(Alignment.Center).size(15.dp),
+                              modifier=Modifier.align(Alignment.Center).size(
+                                  15.dp),
                         )
                     }
                 }
@@ -473,7 +492,8 @@ fun ColumnScope.Footer(state: State, properties: LevelProperties,
                 shape=RoundedCornerShape(5),
                 colors=ButtonDefaults.buttonColors(containerColor=BUTTON_COLOR),
                 contentPadding=PaddingValues(0.dp),
-            ) {
+            )
+            {
                 Box(Modifier.fillMaxHeight()) {
                     Image(painter=painterResource(id=R.drawable.undo),
                           contentDescription="upgrade",
@@ -488,7 +508,8 @@ fun ColumnScope.Footer(state: State, properties: LevelProperties,
                 shape=RoundedCornerShape(5),
                 colors=ButtonDefaults.buttonColors(containerColor=BUTTON_COLOR),
                 contentPadding=PaddingValues(0.dp),
-            ) {
+            )
+            {
                 Box(Modifier.fillMaxHeight()) {
                     Image(painter=painterResource(id=R.drawable.restart),
                           contentDescription="upgrade",
@@ -511,7 +532,9 @@ fun DrawGame(levelIdx: Int, bestScore: Int)
         HEADER_TEXT_SIZE_BASE.toSp()
     }
 
-    val state = State(rememberSaveable { mutableStateOf(listOf(Triple(0, 0, 1))) })
+    val state = State(
+        rememberSaveable { mutableStateOf(listOf(Triple(0, 0, 1))) }
+    )
     val properties = Levels[levelIdx]
     //AppDatabase.instance.scoreDao().update(Score(levelIdx, 3))
     //Log.e("jj all", AppDatabase.instance.scoreDao().getAll().contentToString())
@@ -538,6 +561,5 @@ fun GameScreen(navigation: NavController, levelIdx: Int)
 @Composable
 fun GamePreview()
 {
-    val navController = rememberNavController()
     DrawGame(2, 3)
 }

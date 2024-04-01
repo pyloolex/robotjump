@@ -1,7 +1,6 @@
 package com.volganl64.robotjump
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.navigation.compose.composable
@@ -19,7 +18,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val navController = rememberNavController()
-            NavHost(navController=navController, startDestination="game/2") //"greeting")
+            NavHost(navController=navController, startDestination="greeting")
             {
                 composable("greeting")
                 {
