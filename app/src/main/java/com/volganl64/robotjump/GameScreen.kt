@@ -84,6 +84,10 @@ fun getStarNumber(moveCount: Int, constraints: List<Int>): Int
 fun getGameState(state: State, properties: LevelProperties) : GAME_STATE
 {
     val position = state.moves.value.last()
+    if (getStarNumber(state.moves.value.size - 1, properties.constraints) == 0)
+    {
+        return GAME_STATE.TOO_MANY_MOVES
+    }
     if (position.first == properties.target.first &&
             position.second == properties.target.second)
     {
@@ -93,10 +97,6 @@ fun getGameState(state: State, properties: LevelProperties) : GAME_STATE
             position.second > properties.target.second)
     {
         return GAME_STATE.BEYOND_TARGET
-    }
-    if (getStarNumber(state.moves.value.size - 1, properties.constraints) == 0)
-    {
-        return GAME_STATE.TOO_MANY_MOVES
     }
     return GAME_STATE.IN_PROGRESS
 }
